@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "416094018507",
+    "project_id": "riderpay-e22aa",
+    "storage_bucket": "riderpay-e22aa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416094018507:android:2bea14f8d66b8956a5f44e",
+        "android_client_info": {
+          "package_name": "com.rider_pay_driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsGVmFQFeHVGdrIdFjnk-kFdCY8oOFQIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
