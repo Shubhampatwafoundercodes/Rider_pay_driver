@@ -164,7 +164,7 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
                 _buildEditableField(tr, tr.name, name, ref, "name"),
 
                 /// Phone number (non-editable)
-                _buildField(context, label: tr.phone, value: phone, editable: false),
+                _buildField(context, label: tr.phone, value: phone, editable: false,t: tr),
 
                 /// Gender editable text (dropdown add later)
                 _buildGenderField(tr, gender, ref),
@@ -192,6 +192,7 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
                         label: tr.languagesSpeak,
                         value: selectedLanguages.join(", "),
                         editable: false,
+                        t: tr
                       ),
                       Icon(Icons.arrow_forward_ios_rounded,
                           color: context.hintTextColor, size: 18),
@@ -257,7 +258,7 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
       final success = await updateN.updateProfile(field: "img", value: path);
       if (success) {
         CustomSlideDialog.show(
-          dismissible: false,
+          // dismissible: false,
           context: context,
           child: SuccessRejectPopup(
             isReject: false,
@@ -282,9 +283,10 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
         label: label,
         value: value,
         editable: true,
+        t: tr,
         onEdit: () => _showEditBottomSheet(
           tr,
-          title: "Edit $label",
+          title: "${tr.edit} $label",
           initialValue: value,
           onSave: (val) async {
             final success =
@@ -398,6 +400,7 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
         label: tr.dob,
         value: formattedDob.isEmpty ? "Select DOB" : formattedDob,
         editable: true,
+        t:tr,
         onEdit: () async {
           // 🔹 Default initial date
           DateTime initialDate;
@@ -451,8 +454,14 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
     Widget _buildField(BuildContext context,
         {required String label,
           required String value,
-          bool editable = true,
-          VoidCallback? onEdit})
+        required AppLocalizations t,
+        bool editable = true,
+          VoidCallback? onEdit,
+        }
+
+
+
+        )
     {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -479,7 +488,7 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
                 GestureDetector(
                   onTap: onEdit,
                   child: ConstText(
-                    text: "Edit",
+                    text: "${t.edit}",
                     fontSize: AppConstant.fontSizeTwo,
                     color: context.primary,
                     fontWeight: AppConstant.semiBold,
@@ -541,7 +550,7 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
                   controller: controller,
                   inputFormatters: formatters,
                   decoration: InputDecoration(
-                    hintText: "Enter $title",
+                    hintText: "${tr.enter} $title",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
                     ),

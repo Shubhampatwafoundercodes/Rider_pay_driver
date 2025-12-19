@@ -24,7 +24,15 @@ abstract class DriverRideRepo {
 
 
 
+  Future<void> updateDriverStatus(String driverId,String driverStatus);
 
   /// Driver updates
   Future<void> updateDriverLocation(String driverId, double lat, double lng);
+
+
+
+
+
+
+
 }

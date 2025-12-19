@@ -12,16 +12,17 @@ import 'package:rider_pay_driver/core/res/constant/const_toggle_switch.dart';
 import 'package:rider_pay_driver/core/utils/routes/routes_name.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/driver_on_of_notifer.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/profile_notifier.dart';
+import 'package:rider_pay_driver/l10n/app_localizations.dart';
 import 'package:rider_pay_driver/main.dart';
 
 
 class MapTopBarWidget extends ConsumerWidget {
   final void Function()? onTap;
-
   const MapTopBarWidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tr=AppLocalizations.of(context)!;
     final profileState = ref.watch(profileProvider);
     final driverState = ref.watch(driverOnOffNotifierProvider);
     final driverNotifier = ref.read(driverOnOffNotifierProvider.notifier);
@@ -55,7 +56,7 @@ class MapTopBarWidget extends ConsumerWidget {
                 children: [
                   AppSizes.spaceW(6),
                   ConstText(
-                    text: isOnline ? "ON DUTY" : "OFF DUTY",
+                    text: isOnline ? tr.onDuty : tr.offDuty,
                     color:
                     isOnline ? context.success : context.hintTextColor,
                     fontWeight: AppConstant.medium,

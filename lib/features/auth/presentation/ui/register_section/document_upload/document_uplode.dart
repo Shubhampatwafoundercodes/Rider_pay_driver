@@ -314,8 +314,9 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                                     context.pop();
                                   },
                                   title: tr.documentUploaded,
-                                  subtitle:
-                                  "Your ${widget.docType} document has been successfully uploaded.",
+                                  subtitle: tr.documentUploadedSuccessfully(widget.docType)
+
+                                  ,
                                 ),
                               );
 

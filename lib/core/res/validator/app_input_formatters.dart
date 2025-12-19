@@ -74,23 +74,27 @@ class AppInputFormatters {
 
   static List<TextInputFormatter> getFormatter(String docType) {
     switch (docType.toLowerCase()) {
+
       case "aadhar":
         return [
           FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(12),
         ];
+
       case "license":
         return [
-          FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]')),
           UpperCaseTextFormatter(),
+          FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]')),
           LengthLimitingTextInputFormatter(20),
         ];
+
       case "vehicle":
         return [
-          FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9\s\-]')),
           UpperCaseTextFormatter(),
+          FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9\s\-]')),
           LengthLimitingTextInputFormatter(15),
         ];
+
       default:
         return [];
     }

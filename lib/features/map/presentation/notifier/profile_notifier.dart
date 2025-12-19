@@ -63,6 +63,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       final res = await _repo.getProfileApi(userId);
       if (res.code == 200) {
         state = state.copyWith(isLoadingProfile: false, profile: res);
+        print(res.data?.vehicleType?.name);
       } else {
         state = state.copyWith(isLoadingProfile: false, );
       }

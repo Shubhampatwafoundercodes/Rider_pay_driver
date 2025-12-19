@@ -36,6 +36,14 @@ class UserNotifier extends StateNotifier<User?> {
     sharedPreferences.remove('token');
     state = null;
   }
+
+
+  static Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+
   String? get token => state?.token;
   String? get userId => state?.id;
 

@@ -141,11 +141,12 @@ class MyProfile extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         ConstText(
-                          text: "--",
+                          text: "0.0",
                           fontSize: AppConstant.fontSizeHeading,
                           fontWeight: AppConstant.semiBold,
                           letterHeight: 0,
@@ -154,11 +155,14 @@ class MyProfile extends ConsumerWidget {
                         Icon(Icons.star, color: Colors.amber, size: 18),
                       ],
                     ),
-                    ConstText(
-                      text: tr.ratingLabel,
-                      fontSize: AppConstant.fontSizeSmall,
-                      color: context.hintTextColor,
-                      letterHeight: 0,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: ConstText(
+                        text: tr.ratingLabel,
+                        fontSize: AppConstant.fontSizeSmall,
+                        color: context.hintTextColor,
+                        letterHeight: 0,
+                      ),
                     ),
                   ],
                 ),
@@ -222,13 +226,15 @@ class MyProfile extends ConsumerWidget {
 
                   AppSizes.spaceH(20),
 
-                  /// Logout Button (opens bottom sheet)
                   AppBtn(
                     height: screenHeight * 0.05,
                     color: Colors.transparent,
                     border: Border.all(color: context.error, width: 1),
                     title: tr.logoutDeleteAccount,
-                    onTap: () => showLogoutDeleteSheet(context,ref,tr),
+                    onTap: () {
+                      // context.pop();
+                      showLogoutDeleteSheet(context,ref,tr);
+                    }
                   ),
                   AppSizes.spaceH(20),
 
@@ -298,6 +304,7 @@ void showLogoutDeleteSheet(BuildContext context ,WidgetRef ref,AppLocalizations 
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
+    useRootNavigator: true,
     builder: (context) => CommonBottomSheet(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -309,13 +316,15 @@ void showLogoutDeleteSheet(BuildContext context ,WidgetRef ref,AppLocalizations 
               fontSize: AppConstant.fontSizeThree,
               fontWeight: AppConstant.semiBold,
             ),
-            onTap: () async{
+                onTap: () async{
+                  closeTopPopup(context); // close logout sheet
 
-              rideNotifier.stopStream();
-              locationNotifier.stopDriverOnlineUpdates();
-              ref.read(driverOnOffNotifierProvider.notifier).setInitialOnlineState(false);
-              await userNotifier.clearUser();
-              if (context.mounted) context.go(RoutesName.splash);
+                  ref.read(driverOnOffNotifierProvider.notifier).forceOfflineOnLogout();
+                  await userNotifier.clearUser();
+
+                  if (context.mounted) {
+                    closeAllPopupsAndNavigate(context, RoutesName.splash);
+                  }
             },
           ),
           Divider(thickness: 0.3, color: AppColor.grey),
@@ -329,6 +338,7 @@ void showLogoutDeleteSheet(BuildContext context ,WidgetRef ref,AppLocalizations 
             ),
             onTap: () {
               // Navigator.pop(context);
+              // context.pop();
               CustomSlideDialog.show(
                 context: context,
                 child: ConstPopUp(
@@ -349,8 +359,11 @@ void showLogoutDeleteSheet(BuildContext context ,WidgetRef ref,AppLocalizations 
                             child: ConstTextBtn(
                               text: "No",
                               onTap: () {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
+                               // context.pop();
+                                // Navigator.pop(context);
+                                // closeAllPopups(context);
+                                closeTopPopup(context); // just close dialog
+
 
                               },
                             ),
@@ -360,14 +373,16 @@ void showLogoutDeleteSheet(BuildContext context ,WidgetRef ref,AppLocalizations 
                             child: ConstTextBtn(
                               text: "Yes",
                               onTap: () async {
-                                rideNotifier.stopStream();
-                                locationNotifier.stopDriverOnlineUpdates();
-                                ref.read(driverOnOffNotifierProvider.notifier).setInitialOnlineState(false);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
+                                // closeAllPopups(context);
+
+                                 await ref.read(driverOnOffNotifierProvider.notifier).forceOfflineOnLogout();
+                                 ref.read(driverOnOffNotifierProvider.notifier).setInitialOnlineState(false);
+                                   // context.pop();
                                 await updateNotifier.deleteAccount();
                                 await userNotifier.clearUser();
-                                if (context.mounted) context.go(RoutesName.splash);
+                                // context.pop();
+
+                                closeAllPopupsAndNavigate(context, RoutesName.splash);
                               },
                             ),
                           ),
@@ -399,9 +414,10 @@ void openBottomSheet(AppLocalizations t,BuildContext context ,WidgetRef ref,) {
             // First option: Get Support
             GestureDetector(
               onTap: () {
+                context.pop();
                 context.push(RoutesName.supportScreen);
                 // Navigator.pop(context);
-                showLogoutDeleteSheet(context,ref,t);
+                // showLogoutDeleteSheet(context,ref,t);
                 print("Support tapped");
               },
               child: Padding(
@@ -421,7 +437,7 @@ void openBottomSheet(AppLocalizations t,BuildContext context ,WidgetRef ref,) {
             // Second option: Logout
             GestureDetector(
               onTap: () {
-                context.pop();
+                // context.pop();
                 showLogoutDeleteSheet(context,ref,t);
               },
               child: Padding(
@@ -440,4 +456,30 @@ void openBottomSheet(AppLocalizations t,BuildContext context ,WidgetRef ref,) {
       );
     },
   );
+}
+
+
+void closeTopPopup(BuildContext context) {
+  if (Navigator.of(context).canPop()) {
+    Navigator.of(context).pop();
+  }
+
+
+
+}
+
+void closeAllPopupsAndNavigate(
+    BuildContext context,
+    String routeName,
+    ) {
+  // Close all dialogs / bottom sheets
+  Navigator.of(context, rootNavigator: true)
+      .popUntil((route) => route.isFirst);
+
+  // Navigate after pop completes
+  Future.microtask(() {
+    if (context.mounted) {
+      context.go(routeName);
+    }
+  });
 }

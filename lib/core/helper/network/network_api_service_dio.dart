@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rider_pay_driver/features/map/presentation/notifier/driver_on_of_notifer.dart';
 import 'package:rider_pay_driver/share_pref/user_provider.dart';
 import 'base_api_service.dart';
 import 'api_exception.dart';
@@ -28,6 +29,7 @@ class NetworkApiServicesDio extends BaseApiServices {
     final headers = {
       'Content-Type': 'application/json; charset=UTF-8',
     };
+
     if (user != null && user.token.isNotEmpty) {
       headers['Authorization'] = 'Bearer ${user.token}';
     }
@@ -109,6 +111,7 @@ class NetworkApiServicesDio extends BaseApiServices {
       case 401:
       case 403:
         _ref.read(userProvider.notifier).clearUser();
+        _ref.read(driverOnOffNotifierProvider.notifier).forceOfflineOnLogout();
         throw UnauthorisedException("Unauthorised: ${response.data}");
       case 404:
         throw NotFoundException("Not found: ${response.data}");

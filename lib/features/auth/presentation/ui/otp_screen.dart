@@ -65,6 +65,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      print(widget.number);
       if (widget.number.isNotEmpty) {
         ref.read(authNotifierProvider.notifier).sendOtp(widget.number);
         _startTimer();

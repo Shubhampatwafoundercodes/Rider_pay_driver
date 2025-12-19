@@ -93,7 +93,7 @@ class _EarningWalletTabState extends ConsumerState<EarningWalletTab> {
               ),
               AppSizes.spaceH(6),
               ConstText(
-                text: "You have ${transactions.length} transfers left",
+               text:  tr.transfersLeft(transactions.length),
                 fontSize: AppConstant.fontSizeSmall,
                 color: context.textSecondary,
               ),
@@ -131,7 +131,7 @@ class _EarningWalletTabState extends ConsumerState<EarningWalletTab> {
               return TransactionTile(
                 title: t.description ?? '',
                 amount: "₹${t.amount ?? 0}",
-                time: t.datetime.toString(),
+                time: t.datetime,
                 status: t.status ?? '',
                 type: t.type ?? '',
               );
@@ -167,7 +167,7 @@ class _EarningWalletTabState extends ConsumerState<EarningWalletTab> {
 class TransactionTile extends StatelessWidget {
   final String title;
   final String amount;
-  final String time;
+  final dynamic time;
   final String status;
   final String type;
 

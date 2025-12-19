@@ -102,7 +102,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helloUser => 'Hello User';
 
   @override
-  String get registerAsCaption => 'Please register yourself as a Shubh Captain';
+  String get registerAsCaption => 'Please register yourself as a Captain';
 
   @override
   String get receiveAccountUpdateOn => 'Receive account update on';
@@ -499,7 +499,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewRateCard => 'View Rate Card';
 
   @override
-  String get ratingLabel => 'RATING >';
+  String get ratingLabel => 'RATING';
 
   @override
   String get ordersLabel => 'ORDERS';
@@ -709,7 +709,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ride_customerFare => 'Customer Fare';
 
   @override
-  String get earnings_rapidoWalletBalance => 'Rapido Wallet Balance';
+  String get earnings_rapidoWalletBalance => 'RiderPey Wallet Balance';
 
   @override
   String get earnings_todaysEarning => 'Today\'s Earnings';
@@ -730,10 +730,246 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exit_app_message => 'Are you sure you want to close the app? Your current session will be lost.';
 
   @override
-  String get cancel_button => 'CANCEL';
+  String get ok_exit_button => 'OK, EXIT';
 
   @override
-  String get ok_exit_button => 'OK, EXIT';
+  String get noProfileDataFound => 'No profile data found';
+
+  @override
+  String get selectYourVehicle => 'Select your vehicle';
+
+  @override
+  String get confirmVehicle => 'Confirm Vehicle';
+
+  @override
+  String documentUploadedSuccessfully(Object docType) {
+    return 'Your $docType document has been successfully uploaded.';
+  }
+
+  @override
+  String acceptOrders(Object total) {
+    return 'Accept $total Orders';
+  }
+
+  @override
+  String youHaveCompletedOrders(Object completed) {
+    return 'You have completed $completed orders';
+  }
+
+  @override
+  String get noDocumentsFound => 'No documents found';
+
+  @override
+  String get onDuty => 'ON DUTY';
+
+  @override
+  String get offDuty => 'OFF DUTY';
+
+  @override
+  String get proudlyMade => 'Proudly made';
+
+  @override
+  String get inIndia => 'In India';
+
+  @override
+  String get paymentStatusTitle => 'Payment Status';
+
+  @override
+  String get waitingForPayment => 'Waiting for customer to complete payment...';
+
+  @override
+  String get paymentAutoUpdateMsg => 'This will update automatically once payment is received.';
+
+  @override
+  String get paymentSuccessful => 'Payment Successful 🎉';
+
+  @override
+  String get paymentReceived => 'Payment received successfully!';
+
+  @override
+  String get rideCompletedSuccess => 'Ride completed successfully';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get askCustomerRetry => 'Ask customer to retry payment.';
+
+  @override
+  String unknownPaymentStatus(Object status) {
+    return 'Unknown payment status: $status';
+  }
+
+  @override
+  String get amountReceived => 'Amount Received';
+
+  @override
+  String get continues => 'Continue';
+
+  @override
+  String get paymentReceivedSuccess => 'Payment received successfully!';
+
+  @override
+  String get rideCompletedSuccessfully => 'Ride completed successfully';
+
+  @override
+  String get rideCompletionFailed => 'Ride completion failed';
+
+  @override
+  String get customerVerifiedLocation => 'Customer verified location';
+
+  @override
+  String get startRide => 'START RIDE';
+
+  @override
+  String get arrivedAtPickup => 'ARRIVED AT PICKUP';
+
+  @override
+  String get verifyOtp => 'VERIFY OTP';
+
+  @override
+  String get arrivedAtDrop => 'ARRIVED AT DROP';
+
+  @override
+  String collectPayment(Object amount) {
+    return 'Collect Payment ₹$amount';
+  }
+
+  @override
+  String collectCash(Object amount) {
+    return 'Collect Cash ₹$amount';
+  }
+
+  @override
+  String get completeRide => 'COMPLETE RIDE';
+
+  @override
+  String get rideCompleted => 'RIDE COMPLETED';
+
+  @override
+  String get someIssue => 'Some Issue';
+
+  @override
+  String get goToDropOff => 'Go to drop-off';
+
+  @override
+  String get goToMap => 'Go to map';
+
+  @override
+  String transfersLeft(Object count) {
+    return 'You have $count transfers left';
+  }
+
+  @override
+  String get enterOtpTitle => 'Enter OTP';
+
+  @override
+  String get enterOtpDesc => 'Please enter the 4-digit OTP shared by the customer';
+
+  @override
+  String get otpVerified => 'OTP verified';
+
+  @override
+  String get invalidOtp => 'Invalid OTP';
+
+  @override
+  String get mobileEmpty => 'Enter mobile number';
+
+  @override
+  String get mobileInvalid => 'Enter valid mobile number';
+
+  @override
+  String get nameEmpty => 'Enter name';
+
+  @override
+  String get nameTooLong => 'Name must be under 30 characters';
+
+  @override
+  String get nameInvalid => 'Only letters allowed';
+
+  @override
+  String get otpEmpty => 'Enter OTP';
+
+  @override
+  String get otpInvalid => 'Enter valid 4-digit OTP';
+
+  @override
+  String get emailEmpty => 'Enter email';
+
+  @override
+  String get emailInvalid => 'Enter valid email';
+
+  @override
+  String get passwordEmpty => 'Enter password';
+
+  @override
+  String get passwordShort => 'Password must be at least 6 characters';
+
+  @override
+  String get confirmPasswordEmpty => 'Enter confirm password';
+
+  @override
+  String get passwordMismatch => 'Passwords do not match';
+
+  @override
+  String get panEmpty => 'Enter PAN number';
+
+  @override
+  String get panInvalid => 'Enter valid PAN number';
+
+  @override
+  String get aadhaarEmpty => 'Enter Aadhaar number';
+
+  @override
+  String get aadhaarInvalid => 'Enter valid 12-digit Aadhaar number';
+
+  @override
+  String get accountEmpty => 'Enter account number';
+
+  @override
+  String get accountInvalid => 'Enter valid account number';
+
+  @override
+  String get ifscEmpty => 'Enter IFSC code';
+
+  @override
+  String get ifscInvalid => 'Enter valid IFSC code';
+
+  @override
+  String get amountEmpty => 'Enter amount';
+
+  @override
+  String get amountInvalid => 'Enter valid amount';
+
+  @override
+  String get bankNameEmpty => 'Enter bank name';
+
+  @override
+  String get bankNameTooLong => 'Bank name must be under 50 characters';
+
+  @override
+  String get bankNameUppercase => 'Bank name must be in uppercase';
+
+  @override
+  String get transactionEmpty => 'Enter transaction ID';
+
+  @override
+  String get transactionShort => 'Transaction ID is too short';
+
+  @override
+  String get transactionInvalid => 'Only alphanumeric allowed';
+
+  @override
+  String get licenseEmpty => 'Enter Driving License number';
+
+  @override
+  String get licenseInvalid => 'Enter valid Driving License number';
+
+  @override
+  String get vehicleEmpty => 'Enter Vehicle number';
+
+  @override
+  String get vehicleInvalid => 'Enter valid Vehicle number';
 
   @override
   String get termsAndPolicy => ' T&C and Privacy Policy';
@@ -805,7 +1041,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get explore => 'Explore';
 
   @override
-  String get goPlacesWithRiderPay => 'Go Places with Rider Pay';
+  String get goPlacesWithRiderPay => 'Go Places with Rider Pey';
 
   @override
   String get selectTheme => 'Select Theme';
@@ -1001,4 +1237,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancelRefund => 'Cancel & Refund';
+
+  @override
+  String get rateCardTitle => 'Rate Card';
+
+  @override
+  String get noRateDataFound => 'No rate data found';
+
+  @override
+  String fareDetailsTitle(Object vehicle) {
+    return '$vehicle Fare Details';
+  }
+
+  @override
+  String get baseFare => 'Base Fare';
+
+  @override
+  String get perKmRate => 'Per Km Rate';
+
+  @override
+  String get perMinuteRate => 'Per Minute Rate';
+
+  @override
+  String get adminCommission => 'Admin Commission';
+
+  @override
+  String get capacity => 'Capacity';
+
+  @override
+  String get maxSpeed => 'Max Speed';
+
+  @override
+  String perKmUnit(Object value) {
+    return '₹$value / km';
+  }
+
+  @override
+  String perMinuteUnit(Object value) {
+    return '₹$value / min';
+  }
+
+  @override
+  String capacityUnit(Object value) {
+    return '$value person(s)';
+  }
+
+  @override
+  String speedUnit(Object value) {
+    return '$value km/h';
+  }
+
+  @override
+  String orderIdLabel(Object id) {
+    return 'Order ID : $id';
+  }
 }

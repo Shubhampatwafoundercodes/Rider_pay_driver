@@ -6,6 +6,7 @@ import 'package:rider_pay_driver/core/res/app_constant.dart';
 import 'package:rider_pay_driver/core/res/constant/common_network_img.dart';
 import 'package:rider_pay_driver/core/res/constant/const_text.dart';
 import 'package:rider_pay_driver/features/auth/presentation/notifier/vehicle_type_notifier.dart';
+import 'package:rider_pay_driver/l10n/app_localizations.dart';
 
 class RateCardScreen extends ConsumerStatefulWidget {
   const RateCardScreen({super.key});
@@ -28,6 +29,8 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
   @override
   Widget build(BuildContext context) {
     final vehicleState = ref.watch(vehicleTypeProvider);
+    final l10n = AppLocalizations.of(context)!;
+
 
     return Scaffold(
       backgroundColor: context.background,
@@ -35,7 +38,7 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
         elevation: 0,
         backgroundColor: context.white,
         title: ConstText(
-          text: "Rate Card",
+          text: l10n.rateCardTitle,
           fontSize: AppConstant.fontSizeTwo,
           fontWeight: AppConstant.semiBold,
           color: context.textPrimary,
@@ -48,7 +51,7 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
           ? const Center(child: CircularProgressIndicator())
           : vehicleState.vehicleTypeModelData == null ||
           vehicleState.vehicleTypeModelData!.data.isEmpty
-          ? const Center(child: Text("No rate data found"))
+          ? Center(child: Text(l10n.noRateDataFound))
           : Column(
         children: [
           /// --- Tabs for Vehicle Names ---
@@ -112,7 +115,7 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
               child: _vehicleRateCard(
                   context,
                   vehicleState.vehicleTypeModelData!
-                      .data[selectedIndex]),
+                      .data[selectedIndex],l10n),
             ),
           ),
         ],
@@ -121,7 +124,7 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
   }
 
   /// --- Vehicle Rate Card Section ---
-  Widget _vehicleRateCard(BuildContext context, dynamic item) {
+  Widget _vehicleRateCard(BuildContext context, dynamic item, AppLocalizations l10n,) {
     // handle missing API fields gracefully
     final baseFare = item.baseFare ??
         item.base_fare ??
@@ -145,7 +148,7 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: ConstText(
-            text: "${item.name ?? ''} Fare Details",
+            text: l10n.fareDetailsTitle(item.name ?? ''),
             fontSize: AppConstant.fontSizeTwo,
             fontWeight: AppConstant.semiBold,
             color: Colors.green.shade700,
@@ -200,12 +203,13 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
               Divider(height: 20.h),
 
               /// Rate Rows
-              _fareRow("Base Fare", "₹$baseFare"),
-              _fareRow("Per Km Rate", "₹$perKm / km"),
-              _fareRow("Per Minute Rate", "₹$perMin / min"),
-              _fareRow("Admin Commission", "$admin%"),
-              _fareRow("Capacity", "$capacity person(s)"),
-              _fareRow("Max Speed", "$maxSpeed km/h"),
+
+              _fareRow(l10n.baseFare, "₹$baseFare"),
+              _fareRow(l10n.perKmRate, l10n.perKmUnit(perKm)),
+              _fareRow(l10n.perMinuteRate, l10n.perMinuteUnit(perMin)),
+              _fareRow(l10n.adminCommission, "$admin%"),
+              _fareRow(l10n.capacity, l10n.capacityUnit(capacity)),
+              _fareRow(l10n.maxSpeed, l10n.speedUnit(maxSpeed)),
             ],
           ),
         ),

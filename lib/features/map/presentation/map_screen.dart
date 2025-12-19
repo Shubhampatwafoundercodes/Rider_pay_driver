@@ -7,14 +7,12 @@ import 'package:rider_pay_driver/core/res/app_color.dart';
 import 'package:rider_pay_driver/core/res/app_constant.dart';
 import 'package:rider_pay_driver/core/res/app_padding.dart';
 import 'package:rider_pay_driver/core/res/app_size.dart';
-import 'package:rider_pay_driver/core/res/constant/const_pop_up.dart';
 import 'package:rider_pay_driver/core/res/constant/const_text.dart';
-import 'package:rider_pay_driver/core/res/constant/const_text_btn.dart';
+import 'package:rider_pay_driver/core/res/exist_app_popup/exist_app_popup.dart';
 import 'package:rider_pay_driver/core/widget/location_on_popup.dart';
 import 'package:rider_pay_driver/features/drawer/presentation/ui/drawer_screen_widget.dart';
 import 'package:rider_pay_driver/features/firebase_service/notification/notification_service.dart';
 import 'package:rider_pay_driver/features/firebase_service/ride/notifer/ride_notifer.dart';
-import 'package:rider_pay_driver/features/map/presentation/booking_details/map_booking_details.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/complete_ride_notifier.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/driver_on_of_notifer.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/location_provider.dart';
@@ -27,7 +25,6 @@ import 'package:rider_pay_driver/l10n/app_localizations.dart';
 import 'package:rider_pay_driver/main.dart';
 import 'package:rider_pay_driver/share_pref/user_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'notifier/map_controller.dart' show mapControllerProvider;
 
 
@@ -105,14 +102,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         rideState.rides.first.driverId == driverId;
 
     return PopScope(
-      canPop: false, // prevent auto pop
+      canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
+        await ExitPopup.exitApp(context, tr);
 
-        final shouldExit = await _showExitConfirmationPopUp(tr);
-        if (shouldExit) {
-          SystemNavigator.pop();
-        }
+        // final shouldExit = await _showExitConfirmationPopUp(tr);
+        // if (shouldExit) {
+        //   SystemNavigator.pop();
+        // }
       },
       child: SafeArea(
         top: false,
@@ -126,6 +124,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             actions: [
               if(isBookingOngoing)
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
                     child: ConstText(text: tr.meet_customer),
@@ -307,64 +306,64 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
 
-  Future<bool> _showExitConfirmationPopUp(AppLocalizations tr) async {
-    final result = await showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return ConstPopUp(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-          borderRadius: 12.0,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.warning_amber_rounded,
-                color: Colors.orange.shade700,
-                size: 40,
-              ),
-              const SizedBox(height: 15),
-              ConstText(
-                text: tr.exit_app_title,
-                fontSize: 18,
-                fontWeight: AppConstant.bold,
-                color: context.textPrimary,
-              ),
-              const SizedBox(height: 10),
-              ConstText(
-                text:
-                tr.exit_app_message,
-                fontSize: 14,
-                textAlign: TextAlign.center,
-                color: context.hintTextColor,
-              ),
-              const SizedBox(height: 25),
-              Row(
-                children: [
-                  Expanded(
-                    child: ConstTextBtn(
-                      text: tr.cancel,
-                      onTap: () => Navigator.of(context).pop(false),
-                      textColor: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: ConstTextBtn(
-                      text: tr.ok_exit_button,
-                      onTap: () => Navigator.of(context).pop(true),
-                      textColor: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
-
-    return result ?? false;
-  }
+  // Future<bool> _showExitConfirmationPopUp(AppLocalizations tr) async {
+  //   final result = await showDialog<bool>(
+  //     context: context,
+  //     barrierDismissible: true,
+  //     builder: (BuildContext context) {
+  //       return ConstPopUp(
+  //         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+  //         borderRadius: 12.0,
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             Icon(
+  //               Icons.warning_amber_rounded,
+  //               color: Colors.orange.shade700,
+  //               size: 40,
+  //             ),
+  //             const SizedBox(height: 15),
+  //             ConstText(
+  //               text: tr.exit_app_title,
+  //               fontSize: 18,
+  //               fontWeight: AppConstant.bold,
+  //               color: context.textPrimary,
+  //             ),
+  //             const SizedBox(height: 10),
+  //             ConstText(
+  //               text:
+  //               tr.exit_app_message,
+  //               fontSize: 14,
+  //               textAlign: TextAlign.center,
+  //               color: context.hintTextColor,
+  //             ),
+  //             const SizedBox(height: 25),
+  //             Row(
+  //               children: [
+  //                 Expanded(
+  //                   child: ConstTextBtn(
+  //                     text: tr.cancel,
+  //                     onTap: () => Navigator.of(context).pop(false),
+  //                     textColor: Colors.blue,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(width: 15),
+  //                 Expanded(
+  //                   child: ConstTextBtn(
+  //                     text: tr.ok_exit_button,
+  //                     onTap: () => Navigator.of(context).pop(true),
+  //                     textColor: Colors.red,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  //
+  //   return result ?? false;
+  // }
 
 }

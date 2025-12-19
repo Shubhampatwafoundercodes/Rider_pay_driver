@@ -3,9 +3,6 @@ class Assets {
   Assets._();
 
   static const String assetsDarkModeMap = 'assets/dark_mode_map.json';
-  static const String assetsImagesOnboarding1 = 'assets/images/onboarding_1.jpeg';
-  static const String assetsImagesOnboarding2 = 'assets/images/onboarding_2.jpeg';
-  static const String assetsImagesOnboarding3 = 'assets/images/onboarding_3.jpeg';
   static const String assetsLightModeMap = 'assets/light_mode_map.json';
   static const String assetsOnboarding1 = 'assets/onboarding_1.jpeg';
   static const String assetsOnboarding2 = 'assets/onboarding_2.jpeg';
@@ -40,8 +37,6 @@ class Assets {
   static const String imagesAppLogoLightMode = 'assets/images/app_logo_light_mode.png';
   static const String imagesDlImage = 'assets/images/dl_image.png';
   static const String imagesDragableSheetImage = 'assets/images/dragable_sheet_image.png';
-
-
   static const String imagesGaneshJiBg = 'assets/images/ganesh_ji_bg.jpeg';
   static const String imagesOnboarding1 = 'assets/images/onboarding_1.png';
   static const String imagesOnboarding2 = 'assets/images/onboarding_2.png';
@@ -51,6 +46,6 @@ class Assets {
   static const String imagesReject = 'assets/images/reject.png';
   static const String imagesSuccess = 'assets/images/success.png';
   static const String imagesVerifyBatch = 'assets/images/verify_batch.png';
-
+  static const String soundBookingSound = 'assets/sound/booking_sound.mp3';
 
 }

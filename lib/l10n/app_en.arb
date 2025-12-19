@@ -32,7 +32,7 @@
   "noCitiesFound": "No cities found",
 
   "helloUser": "Hello User",
-  "registerAsCaption": "Please register yourself as a Shubh Captain",
+  "registerAsCaption": "Please register yourself as a Captain",
   "receiveAccountUpdateOn": "Receive account update on",
   "haveReferralCode": "Have a Referral Code?",
   "referralBonusText": "Get up to ₹500 as referral joining bonus",
@@ -192,7 +192,7 @@
   "viewRateCard": "View Rate Card",
 
 
-  "ratingLabel": "RATING >",
+  "ratingLabel": "RATING",
   "ordersLabel": "ORDERS",
   "daysLabel": "DAYS",
   "yearsLabel": "YEARS",
@@ -271,7 +271,7 @@
   "ride_paymentInfo": "Payment info",
   "ride_customerFare": "Customer Fare",
 
-  "earnings_rapidoWalletBalance": "RiderPay Wallet Balance",
+  "earnings_rapidoWalletBalance": "RiderPe Wallet Balance",
   "earnings_todaysEarning": "Today's Earnings",
   "earnings_lastOrderEarning": "Last Order Earning",
 
@@ -281,6 +281,113 @@
   "exit_app_title": "Exit Application?",
   "exit_app_message": "Are you sure you want to close the app? Your current session will be lost.",
   "ok_exit_button": "OK, EXIT",
+
+  "noProfileDataFound": "No profile data found",
+  "selectYourVehicle": "Select your vehicle",
+  "confirmVehicle": "Confirm Vehicle",
+  "documentUploadedSuccessfully": "Your {docType} document has been successfully uploaded.",
+
+  "acceptOrders": "Accept {total} Orders",
+  "youHaveCompletedOrders": "You have completed {completed} orders",
+  "noDocumentsFound": "No documents found",
+
+
+  "onDuty": "ON DUTY",
+  "offDuty": "OFF DUTY",
+  "proudlyMade": "Proudly made",
+  "inIndia": "In India",
+
+  "paymentStatusTitle": "Payment Status",
+
+  "waitingForPayment": "Waiting for customer to complete payment...",
+  "paymentAutoUpdateMsg": "This will update automatically once payment is received.",
+
+  "paymentSuccessful": "Payment Successful 🎉",
+  "paymentReceived": "Payment received successfully!",
+  "rideCompletedSuccess": "Ride completed successfully",
+  "close": "Close",
+  "askCustomerRetry": "Ask customer to retry payment.",
+
+  "unknownPaymentStatus": "Unknown payment status: {status}",
+
+
+  "amountReceived": "Amount Received",
+  "continues": "Continue",
+  "paymentReceivedSuccess": "Payment received successfully!",
+  "rideCompletedSuccessfully": "Ride completed successfully",
+  "rideCompletionFailed": "Ride completion failed",
+
+  "customerVerifiedLocation": "Customer verified location",
+  "startRide": "START RIDE",
+  "arrivedAtPickup": "ARRIVED AT PICKUP",
+  "verifyOtp": "VERIFY OTP",
+  "arrivedAtDrop": "ARRIVED AT DROP",
+  "collectPayment": "Collect Payment ₹{amount}",
+  "collectCash": "Collect Cash ₹{amount}",
+  "completeRide": "COMPLETE RIDE",
+  "rideCompleted": "RIDE COMPLETED",
+  "someIssue": "Some Issue",
+
+  "goToDropOff": "Go to drop-off",
+  "goToMap": "Go to map",
+  "transfersLeft": "You have {count} transfers left",
+  "enterOtpTitle": "Enter OTP",
+  "enterOtpDesc": "Please enter the 4-digit OTP shared by the customer",
+  "otpVerified": "OTP verified",
+  "invalidOtp": "Invalid OTP",
+
+
+
+
+
+  "mobileEmpty": "Enter mobile number",
+  "mobileInvalid": "Enter valid mobile number",
+
+  "nameEmpty": "Enter name",
+  "nameTooLong": "Name must be under 30 characters",
+  "nameInvalid": "Only letters allowed",
+
+  "otpEmpty": "Enter OTP",
+  "otpInvalid": "Enter valid 4-digit OTP",
+
+  "emailEmpty": "Enter email",
+  "emailInvalid": "Enter valid email",
+
+  "passwordEmpty": "Enter password",
+  "passwordShort": "Password must be at least 6 characters",
+
+  "confirmPasswordEmpty": "Enter confirm password",
+  "passwordMismatch": "Passwords do not match",
+
+  "panEmpty": "Enter PAN number",
+  "panInvalid": "Enter valid PAN number",
+
+  "aadhaarEmpty": "Enter Aadhaar number",
+  "aadhaarInvalid": "Enter valid 12-digit Aadhaar number",
+
+  "accountEmpty": "Enter account number",
+  "accountInvalid": "Enter valid account number",
+
+  "ifscEmpty": "Enter IFSC code",
+  "ifscInvalid": "Enter valid IFSC code",
+
+  "amountEmpty": "Enter amount",
+  "amountInvalid": "Enter valid amount",
+
+  "bankNameEmpty": "Enter bank name",
+  "bankNameTooLong": "Bank name must be under 50 characters",
+  "bankNameUppercase": "Bank name must be in uppercase",
+
+  "transactionEmpty": "Enter transaction ID",
+  "transactionShort": "Transaction ID is too short",
+  "transactionInvalid": "Only alphanumeric allowed",
+
+  "licenseEmpty": "Enter Driving License number",
+  "licenseInvalid": "Enter valid Driving License number",
+
+  "vehicleEmpty": "Enter Vehicle number",
+  "vehicleInvalid": "Enter valid Vehicle number",
+
 
 
 
@@ -314,7 +421,7 @@
 
     "alreadyHaveAccount": "Already have an account?",
   "explore": "Explore",
-  "goPlacesWithRiderPay": "Go Places with Rider Pay",
+  "goPlacesWithRiderPay": "Go Places with Rider Pe",
   "selectTheme": "Select Theme",
   "theme": "Theme",
   "systemDefault": "System Default",
@@ -383,7 +490,78 @@
   "privacyPolicy": "Privacy Policy",
   "safetyConcern": "Safety Concern",
   "aboutUs": "About Us",
-  "cancelRefund": "Cancel & Refund"
+  "cancelRefund": "Cancel & Refund",
+
+
+  "rateCardTitle": "Rate Card",
+  "noRateDataFound": "No rate data found",
+
+  "fareDetailsTitle": "{vehicle} Fare Details",
+  "@fareDetailsTitle": {
+    "placeholders": {
+      "vehicle": {
+
+      }
+    }
+  },
+
+  "baseFare": "Base Fare",
+  "perKmRate": "Per Km Rate",
+  "perMinuteRate": "Per Minute Rate",
+  "adminCommission": "Admin Commission",
+  "capacity": "Capacity",
+  "maxSpeed": "Max Speed",
+
+  "perKmUnit": "₹{value} / km",
+  "@perKmUnit": {
+    "placeholders": {
+      "value": {
+
+
+
+      }
+    }
+  },
+
+  "perMinuteUnit": "₹{value} / min",
+  "@perMinuteUnit": {
+    "placeholders": {
+      "value": {
+
+
+
+      }
+    }
+  },
+
+  "capacityUnit": "{value} person(s)",
+  "@capacityUnit": {
+    "placeholders": {
+      "value": {
+
+
+      }
+    }
+  },
+
+  "speedUnit": "{value} km/h",
+  "@speedUnit": {
+    "placeholders": {
+      "value": {
+
+      }
+    }
+  },
+
+
+  "orderIdLabel": "Order ID : {id}",
+  "@orderIdLabel": {
+    "placeholders": {
+      "id": {
+
+      }
+    }
+  }
 
 
 

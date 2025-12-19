@@ -41,6 +41,7 @@ class LanguageScreen extends ConsumerWidget {
               child: Row(
                 children: [
                   const ConstAppBackBtn(),
+
                   const Spacer(),
 
                   /// Help Button
@@ -146,7 +147,7 @@ class LanguageScreen extends ConsumerWidget {
                       title: tr.proceed,
                       margin: AppPadding.screenPaddingV,
                       onTap: () {
-                        context.push(RoutesName.loginScreen);
+                        context.go(RoutesName.loginScreen);
                       },
                     ),
                   ],

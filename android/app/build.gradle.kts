@@ -35,8 +35,8 @@ android {
         applicationId = "com.rider_pay_driver"
         minSdk = flutter.minSdkVersion
         targetSdk = 35
-        versionCode = 4
-        versionName = "1.3"
+        versionCode = 7
+        versionName =  "1.3.5"
     }
 
     signingConfigs {

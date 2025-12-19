@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rider_pay_driver/core/res/app_color.dart';
+import 'package:rider_pay_driver/core/res/validator/app_validator.dart';
+import 'package:rider_pay_driver/l10n/app_localizations.dart';
 
 import 'app_border.dart';
 import 'app_constant.dart';
@@ -48,12 +50,15 @@ class AppTextField extends StatefulWidget {
   final Widget? prefix;
   final Widget? suffix;
   final List<TextInputFormatter>? inputFormatters;
-  final String? titleText; // text above the input
+  final String? titleText;
   final String? labelText;
   final bool showClearButton;
   final TextCapitalization textCapitalization;
 
   final Color? titleColor;
+
+  final String? prefixText;
+  final TextStyle? prefixTextStyle;
 
   const AppTextField({
     super.key,
@@ -97,7 +102,7 @@ class AppTextField extends StatefulWidget {
     this.labelText,
     this.cursorColor,
     this.showClearButton = true, this.titleColor,
-    this.textCapitalization = TextCapitalization.none,
+    this.textCapitalization = TextCapitalization.none, this.prefixText, this.prefixTextStyle,
 
   });
 
@@ -211,8 +216,7 @@ class _AppTextFieldState extends State<AppTextField> {
               readOnly: widget.readOnly,
               obscureText: _obscureText,
               keyboardType: widget.keyboardType ?? TextInputType.text,
-              style:
-                  widget.style ??
+              style: widget.style ??
                   TextStyle(
                     color: widget.textColor ?? context.textPrimary,
                     fontSize: widget.fontSize ?? AppConstant.fontSizeTwo,
@@ -232,17 +236,30 @@ class _AppTextFieldState extends State<AppTextField> {
                 labelText: widget.labelText,
                 labelStyle: TextStyle(
                   color: widget.hintColor ?? context.greyDark,
+                  fontFamily: 'Poppins',
+
                 ),
                 hintText: widget.hintText ?? '',
                 hintStyle: TextStyle(
                   color: widget.hintColor ?? context.hintTextColor,
                   fontSize: widget.fontSize ?? AppConstant.fontSizeTwo,
                   fontWeight: widget.hintWeight,
+                  fontFamily: "Poppins"
                 ),
                 counter: const Offstage(),
                 filled: widget.filled,
                 fillColor: widget.fillColor ?? Colors.transparent,
                 prefixIcon: widget.prefixIcon,
+                prefixText: widget.prefixText,
+                prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+
+                prefixStyle: widget.prefixTextStyle ??
+                    TextStyle(
+                      color: context.textPrimary,
+                      fontWeight: AppConstant.semiBold,
+                      fontFamily: 'Poppins',
+
+                    ),
                 prefix: widget.prefix,
                 suffix:
                     widget.suffix ??
@@ -325,7 +342,7 @@ class _AppTextFieldState extends State<AppTextField> {
             Padding(
               padding: EdgeInsets.only(left: 10.w),
               child: Text(
-                _errorText!,
+                AppLocalizations.of(context)!.translate(_errorText!),
                 style: TextStyle(
                   color: context.error,
                   fontSize: 12.sp,

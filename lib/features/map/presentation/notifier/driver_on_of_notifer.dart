@@ -96,4 +96,41 @@ class DriverOnOffNotifier extends StateNotifier<DriverOnOfState> {
       return false;
     }
   }
+
+  Future<void> forceOfflineOnLogout() async {
+    try {
+      final profileNotifier = ref.read(profileProvider.notifier);
+      final locationNotifier = ref.read(locationProvider.notifier);
+      final rideNotifier = ref.read(driverRideNotifierProvider.notifier);
+
+      final userId = ref.read(userProvider)?.id;
+      if (userId == null) return;
+
+      final driverL = ref.read(locationProvider).currentPosition;
+
+      Map<String, dynamic> data = {
+        "driverId": userId,
+        "availability": "Offline",  // 🔥 Force Offline
+        "latitude": driverL?.latitude ?? 0,
+        "longitude": driverL?.longitude ?? 0,
+      };
+
+      print("Force Offline Data: $data");
+
+      await repo.driverOnlineOfRepo(data);
+
+      // Stop all streams
+      rideNotifier.stopStream();
+      locationNotifier.stopDriverOnlineUpdates();
+
+      // Update locally
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        profileNotifier.getProfile();
+      });
+
+    } catch (e) {
+      print("❌ Error force offline on logout: $e");
+    }
+  }
+
 }

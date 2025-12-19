@@ -11,7 +11,6 @@ const _localeKey = 'locale';
 final supportedLanguages = [
   {"code": "en", "name": "English"},
   {"code": "hi", "name": "हिन्दी"},
-  // {"code": "mr", "name": "मराठी"},
 ];
 
 
@@ -52,8 +51,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
 }
 
 /// Exposed provider (Locale)
-final localeProvider =
-StateNotifierProvider<LocaleNotifier, Locale>((ref) => LocaleNotifier());
+final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) => LocaleNotifier());
 
 /// Helper provider → selected language name
 final currentLanguageProvider = Provider<String>((ref) {

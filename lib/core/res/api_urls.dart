@@ -1,8 +1,12 @@
 class ApiUrls {
+
+
+
+
   static const baseUrl='https://riderpay.codescarts.com/api';
   static const loginUrl='$baseUrl/driver/login';
   static const registerUrl='$baseUrl/driver/register';
-  static const sendOtpUrl = 'https://otp.fctechteam.org/send_otp.php?mode=live&digit=6&mobile=';
+  static const sendOtpUrl = 'https://otp.fctechteam.org/send_otp.php?mode=test&digit=6&mobile=';
   static const verifyOtpUrl = 'https://otp.fctechteam.org/verifyotp.php?mobile=';
   static const vehicleTypeUrl ="$baseUrl/system/vehicleType";
   static const vehicleTypeUpload ="$baseUrl/driver/selectVehicle?";

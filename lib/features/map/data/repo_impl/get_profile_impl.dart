@@ -12,6 +12,7 @@ class GetProfileImpl implements GetProfileRepo {
   Future<GetProfileModel> getProfileApi(String userid) async {
     try {
       final res = await api.getGetApiResponse(ApiUrls.getProfile+userid);
+
       return GetProfileModel.fromJson(res);
     } catch (e) {
       throw Exception("Failed to load getProfileApi: $e");

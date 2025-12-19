@@ -65,7 +65,7 @@ class CommonIconTextButton extends StatelessWidget {
             else if (text != null)
               ConstText(
                 text: text!,
-                fontSize: AppConstant.fontSizeThree,
+                fontSize: 15,
                 fontWeight: AppConstant.semiBold,
                 color: context.textPrimary,
               ),

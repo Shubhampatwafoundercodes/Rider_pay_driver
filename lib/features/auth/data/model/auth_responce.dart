@@ -37,7 +37,7 @@ class Data {
     id = json['id'];
     isRegister = json['isRegister'];
   }
-
+  
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['token'] =

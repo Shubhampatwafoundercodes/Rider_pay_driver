@@ -134,6 +134,8 @@ class _RideDetailsScreenState extends State<RideDetailsScreen>
 
   /// 🟩 Header
   Widget _rideHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -146,14 +148,14 @@ class _RideDetailsScreenState extends State<RideDetailsScreen>
         AppSizes.spaceH(4),
         ConstText(
           text: DateTimeFormat.formatFullDateTime(
-            widget.ride.bookingTime.toString() ?? "",
+            widget.ride.bookingTime,
           ),
           fontSize: 12,
           color: context.hintTextColor,
         ),
         AppSizes.spaceH(6),
         ConstText(
-          text: "Order ID : ${widget.ride.rideId ?? '--'}",
+          text: l10n.orderIdLabel(widget.ride.rideId ?? "--"),
           fontSize: 12,
           color: context.hintTextColor,
         ),
@@ -273,20 +275,6 @@ class _RideDetailsScreenState extends State<RideDetailsScreen>
     );
   }
 
-  Widget _earningLineItem(String text, bool isPositive) {
-    return Row(
-      children: [
-        Icon(Icons.check_circle, color: Colors.green, size: 18),
-        AppSizes.spaceW(8),
-        ConstText(
-          text: text,
-          fontSize: 13,
-          color: Colors.green.shade700,
-          fontWeight: FontWeight.w500,
-        ),
-      ],
-    );
-  }
 
   /// 📍 Pickup and Drop Card
   Widget _pickupDropCard(AppLocalizations tr) {

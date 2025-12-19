@@ -61,7 +61,11 @@ class _VehicleSelectionScreenState
                     text: tr.help,
                     imagePath: Assets.iconHelpIc,
                     imageColor: context.black,
-                    onTap: () {},
+                    onTap: () {
+
+                      context.push(RoutesName.supportScreen);
+
+                    },
                   ),
                 ],
               ),
@@ -76,7 +80,7 @@ class _VehicleSelectionScreenState
               Image.asset(Assets.iconSelectVIc, height: 70.h),
               AppSizes.spaceH(15),
               ConstText(
-                text: "Select your vehicle",
+                text: tr.selectYourVehicle,
                 fontWeight: AppConstant.bold,
                 fontSize: AppConstant.fontSizeLarge,
                 color: context.textPrimary,
@@ -177,7 +181,7 @@ class _VehicleSelectionScreenState
 
               /// Confirm button
               AppBtn(
-                title: "Confirm Vehicle",
+                title:tr.confirmVehicle,
                 loading: vehicleState.isUploadLoading,
                 margin: AppPadding.screenPadding,
                 isDisabled: vehicleState.selectedId == null,

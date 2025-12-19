@@ -13,6 +13,7 @@ import 'package:rider_pay_driver/core/res/constant/common_box.dart' show CommonB
 import 'package:rider_pay_driver/core/res/constant/common_icon_text_btn.dart';
 import 'package:rider_pay_driver/core/res/constant/common_network_img.dart';
 import 'package:rider_pay_driver/core/res/constant/const_text.dart';
+import 'package:rider_pay_driver/core/res/exist_app_popup/exist_app_popup.dart';
 import 'package:rider_pay_driver/core/utils/navigation_helper.dart' show NextRouteDecider;
 import 'package:rider_pay_driver/core/utils/routes/routes_name.dart';
 import 'package:rider_pay_driver/features/auth/presentation/ui/register_section/document_upload/permission_screen.dart';
@@ -54,78 +55,85 @@ class _DocumentCenterState extends ConsumerState<DocumentCenter> {
     }
 
     if (data == null) {
-      return const Scaffold(
-        body: Center(child: Text("No profile data found")),
+      return  Scaffold(
+        body: Center(child: Text(tr.noProfileDataFound)),
       );
     }
 
     final docs = data.documents ;
     final vehicle = data.vehicleType;
 
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        backgroundColor: context.surface,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Row(
-            children: [
-              AppSizes.spaceW(10),
-              ConstText(
-                text: tr.documentCenter,
-                fontWeight: AppConstant.semiBold,
-                color: context.textPrimary,
-                fontSize: AppConstant.fontSizeThree,
-              ),
-              const Spacer(),
-              CommonIconTextButton(
-                text: tr.help,
-                imagePath: Assets.iconHelpIc,
-                imageColor: context.black,
-                onTap: () {
-                  openBottomSheet(tr,context,ref);
-                },
-              ),
+    return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
+          await ExitPopup.exitApp(context, tr);
+        },
+          child: SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: context.surface,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Row(
+              children: [
+                AppSizes.spaceW(10),
+                ConstText(
+                  text: tr.documentCenter,
+                  fontWeight: AppConstant.semiBold,
+                  color: context.textPrimary,
+                  fontSize: AppConstant.fontSizeThree,
+                ),
+                const Spacer(),
+                CommonIconTextButton(
+                  text: tr.help,
+                  imagePath: Assets.iconHelpIc,
+                  imageColor: context.black,
+                  onTap: () {
+                    openBottomSheet(tr,context,ref);
+                  },
+                ),
 
+              ],
+            ),
+            backgroundColor: context.surface,
+            elevation: 0,
+          ),
+          body: Column(
+            children: [
+              _header(tr),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await NextRouteDecider.goNextAfterProfileCheck(context, ref);
+                  },
+                child: ListView(
+                  padding: AppPadding.screenPadding,
+                  children: [
+                    // Vehicle Tile
+                    _commonTile(
+                      icon: CommonNetworkImage(
+                        imageUrl: vehicle?.icon ?? "",
+                        height: 30,
+                        width: 30,
+                        fit: BoxFit.contain,
+                      ),
+                      title: "${tr.vehicleType}  - ${vehicle?.name ?? tr.notSelected}",
+                      subtitle: vehicle?.name !=null ? tr.submited:tr.tapToSelectVehicle,
+                      subtitleColor:vehicle?.name !=null ?  context.success:context.textPrimary,
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                      onTap: (){
+                        context.push(RoutesName.vehicleSelection);
+                      },
+                    ),
+                    ...docs.map((doc) => _buildDocTile(doc,tr)),
+                    _personDetailsTile(tr),
+                    _permissionsTile(tr),
+                  ],
+                ),
+              )),
             ],
           ),
-          backgroundColor: context.surface,
-          elevation: 0,
-        ),
-        body: Column(
-          children: [
-            _header(tr),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await NextRouteDecider.goNextAfterProfileCheck(context, ref);
-                },
-              child: ListView(
-                padding: AppPadding.screenPadding,
-                children: [
-                  // Vehicle Tile
-                  _commonTile(
-                    icon: CommonNetworkImage(
-                      imageUrl: vehicle?.icon ?? "",
-                      height: 30,
-                      width: 30,
-                      fit: BoxFit.contain,
-                    ),
-                    title: "${tr.vehicleType}  - ${vehicle?.name ?? tr.notSelected}",
-                    subtitle: vehicle?.name !=null ? tr.submited:tr.tapToSelectVehicle,
-                    subtitleColor:vehicle?.name !=null ?  context.success:context.textPrimary,
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-                    onTap: (){
-                      context.push(RoutesName.vehicleSelection);
-                    },
-                  ),
-                  ...docs.map((doc) => _buildDocTile(doc,tr)),
-                  _personDetailsTile(tr),
-                  _permissionsTile(tr),
-                ],
-              ),
-            )),
-          ],
         ),
       ),
     );
@@ -141,7 +149,7 @@ class _DocumentCenterState extends ConsumerState<DocumentCenter> {
       title: doc.docType ?? "Unknown",
       subtitle: _subtitleForStatus(status,tr),
       subtitleColor: _subtitleColor(status),
-      borderColor: status == "rejected" ? Colors.red : null, // only failed has border
+      borderColor: status == "rejected" ? Colors.red : null,
       trailing: isTapable ? const Icon(Icons.arrow_forward_ios, size: 18) : null,
       color: isTapable && status == "" ? context.docBlue : null,
       titleColor: isTapable && status == "" ? context.white : null,

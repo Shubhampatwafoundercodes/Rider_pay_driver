@@ -3,17 +3,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rider_pay_driver/core/utils/routes/routes_name.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/profile_notifier.dart';
+import 'package:rider_pay_driver/features/onboarding/splash/app_start_notifier.dart';
 import 'package:rider_pay_driver/share_pref/user_provider.dart';
 
 class NextRouteDecider {
   static Future<void> goNextAfterProfileCheck(BuildContext context, WidgetRef ref) async {
     try {
+
+      bool onboardDone = await AppStartNotifier.isOnboardDone();
+      if (!onboardDone) {
+        context.go(RoutesName.onBoard);
+        return;
+      }
+
+
       final userNotifier = ref.read(userProvider.notifier);
       await userNotifier.loadUser();
       final user = ref.read(userProvider);
       if (user == null || user.token.isEmpty) {
         if (!context.mounted) return;
-        context.go(RoutesName.onBoard);
+        context.go(RoutesName.loginScreen);
         return;
       }
 
@@ -24,7 +33,7 @@ class NextRouteDecider {
 
       if (profile == null) {
         if (!context.mounted) return;
-        context.go(RoutesName.onBoard);
+        context.go(RoutesName.loginScreen);
         return;
       }
 
@@ -54,12 +63,11 @@ class NextRouteDecider {
         return;
       }
 
-      // ✅ All done
       context.go(RoutesName.mapScreen);
     } catch (e, s) {
       debugPrint("NextRouteDecider error: $e\n$s");
       if (!context.mounted) return;
-      context.go(RoutesName.onBoard);
+      context.go(RoutesName.loginScreen);
     }
   }
 }

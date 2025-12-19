@@ -17,6 +17,7 @@ import 'package:rider_pay_driver/features/firebase_service/ride/notifer/ride_not
 import 'package:rider_pay_driver/features/map/presentation/notifier/complete_payment_notifier.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/complete_ride_notifier.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/map_controller.dart';
+import 'package:rider_pay_driver/l10n/app_localizations.dart';
 import 'package:rider_pay_driver/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -48,14 +49,16 @@ class RideActionPanel extends ConsumerStatefulWidget {
 class _RideActionPanelState extends ConsumerState<RideActionPanel> {
   @override
   Widget build(BuildContext context) {
+
+    final t =AppLocalizations.of(context)!;
     final ride = widget.ride;
     final rideNotifier = ref.watch(driverRideNotifierProvider.notifier);
     String currentBtnText = _getButtonText(ride);
-    Color btnColor = _getButtonColor(currentBtnText);
+    Color btnColor = _getButtonColor(ride);
     final mapCtrl = ref.read(mapControllerProvider.notifier);
     final isOtpVerified = ride.statusText?.toLowerCase() == "otp verified";
-    final navigationButtonText = isOtpVerified ? "Go to drop-off" : "Go to map";
-
+    final navigationButtonText =
+    isOtpVerified ? t.goToDropOff : t.goToMap;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Column(
@@ -104,7 +107,7 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
                     Icon(Icons.verified_rounded, color: Colors.green, size: 20),
                     SizedBox(width: 6),
                     ConstText(
-                      text: "Customer Verified Location",
+                      text:t.customerVerifiedLocation ,
                       color: context.textPrimary,
                       fontWeight: AppConstant.semiBold,
                     ),
@@ -165,7 +168,7 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
                       rideNotifier,
                       mapCtrl,
                       ride,
-                      currentBtnText,
+                      // currentBtnText,
                     );
                   },
                 ),
@@ -183,62 +186,72 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
     final payStatus = ride.paymentStatus?.toLowerCase() ?? "pending";
     final fare = ride.fare.toString();
 
+    final t = AppLocalizations.of(context)!;
+
+
     switch (status) {
       case "start":
       case "start ride":
-        return "START RIDE";
+      return t.startRide;
 
       case "started":
-        return "ARRIVED AT PICKUP";
+        return t.arrivedAtPickup;
 
       case "arrived pickup":
-        return "VERIFY OTP";
+        return t.verifyOtp;
 
       case "otp verified":
-        return "ARRIVED DROP";
+        return t.arrivedAtDrop;
 
       case "arrived drop":
         if (mode == "online") {
           return (payStatus == "completed")
-              ? "COMPLETE RIDE"
-              : "Collect Payment ₹$fare";
+              ? t.completeRide
+              : t.collectPayment(fare);
         } else {
-          if (payStatus == "completed") {
-            return "COMPLETE RIDE";
-          } else {
-            return "Collect Cash ₹$fare";
-          }
+          return (payStatus == "completed")
+              ? t.completeRide
+              : t.collectCash(fare);
         }
 
       case "complete ride":
       case "completed":
-        return "RIDE COMPLETED";
+      return t.rideCompleted;
 
       default:
-        return "Some Issue";
+        return t.someIssue;
     }
   }
 
-  Color _getButtonColor(String text) {
-    if (text.contains("Collect Cash") || text.contains("Collect Payment")) {
-      return Colors.blue;
-    }
+  Color _getButtonColor(RideBookingModel ride) {
+    final status = ride.statusText?.toLowerCase() ?? "";
+    final mode = ride.paymentMode?.toLowerCase() ?? "cash";
+    final payStatus = ride.paymentStatus?.toLowerCase() ?? "pending";
 
-    switch (text) {
-      case "START RIDE":
+    switch (status) {
+      case "start":
+      case "start ride":
         return Colors.green;
-      case "ARRIVED AT PICKUP":
+
+      case "started":
         return Colors.deepPurple;
-      case "VERIFY OTP":
+
+      case "arrived pickup":
         return Colors.orange;
-      case "OTP VERIFIED": // ✅ Yellow now visible
+
+      case "otp verified":
         return Colors.yellow.shade700;
-      case "ARRIVED DROP":
-        return Colors.blue;
-      case "COMPLETE RIDE":
+
+      case "arrived drop":
+        if (payStatus != "completed") {
+          return Colors.blue;
+        }
         return Colors.orange;
-      case "RIDE COMPLETED":
+
+      case "complete ride":
+      case "completed":
         return Colors.purple;
+
       default:
         return Colors.grey;
     }
@@ -248,8 +261,11 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
       DriverRideNotifier rideNotifier,
       MapController mapCtrl,
       RideBookingModel ride,
-      String btnText,
       ) async {
+    final status = ride.statusText?.toLowerCase() ?? "";
+    final mode = ride.paymentMode?.toLowerCase() ?? "cash";
+    final payStatus = ride.paymentStatus?.toLowerCase() ?? "pending";
+
     final driverLatLng = ride.requestedDrivers?.first["location"];
     if (driverLatLng == null) {
       toastMsg("Driver location not found");
@@ -258,36 +274,40 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
 
     final driverLat = driverLatLng["latitude"];
     final driverLng = driverLatLng["longitude"];
+
     final completeRideNotifier = ref.read(completeRideProvider.notifier);
-    final completePaymentNotifier = ref.read(completePaymentProvider.notifier);
+    final completePaymentNotifier =
+    ref.read(completePaymentProvider.notifier);
 
-    final mode = ride.paymentMode?.toLowerCase() ?? "cash";
-    final payStatus = ride.paymentStatus?.toLowerCase() ?? "pending";
+    print("🔘 Button tapped for status: $status");
 
-    print("🔘 Button Tapped: $btnText");
+    switch (status) {
 
-    switch (btnText) {
-    // 1️⃣ START RIDE
-      case "START RIDE":
+    /// 1️⃣ START RIDE
+      case "start":
+      case "start ride":
         await rideNotifier.updateRide(ride.rideId, {
           "statusText": "Started",
         });
         await mapCtrl.drawRoute(
           LatLng(driverLat, driverLng),
-          LatLng(ride.pickupLocation["lat"], ride.pickupLocation["lng"]),
+          LatLng(
+            ride.pickupLocation["lat"],
+            ride.pickupLocation["lng"],
+          ),
         );
         break;
 
-    // 2️⃣ ARRIVED AT PICKUP
-      case "ARRIVED AT PICKUP":
+    /// 2️⃣ ARRIVED AT PICKUP
+      case "started":
         await rideNotifier.updateRide(ride.rideId, {
           "statusText": "Arrived Pickup",
         });
         toastMsg("Driver arrived at pickup");
         break;
 
-    // 3️⃣ VERIFY OTP
-      case "VERIFY OTP":
+    /// 3️⃣ VERIFY OTP
+      case "arrived pickup":
         bool? otpVerified = await _showOtpSheet(context, ride);
         if (otpVerified == true) {
           await rideNotifier.updateRide(ride.rideId, {
@@ -297,70 +317,205 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
           mapCtrl.clearPolylines();
           await mapCtrl.drawRoute(
             LatLng(driverLat, driverLng),
-            LatLng(ride.dropLocation["lat"], ride.dropLocation["lng"]),
+            LatLng(
+              ride.dropLocation["lat"],
+              ride.dropLocation["lng"],
+            ),
           );
         }
         break;
 
-    // 4️⃣ ARRIVED DROP
-      case "ARRIVED DROP":
+    /// 4️⃣ ARRIVED DROP
+      case "otp verified":
         await rideNotifier.updateRide(ride.rideId, {
           "statusText": "Arrived Drop",
-          "paymentStatus":"processing"
+          "paymentStatus": "processing",
         });
-
         toastMsg("Arrived at drop location");
         break;
 
-      default:
-        if (btnText.contains("Collect Payment")) {
-          _showPaymentBottomSheet(ride);
-        }
+    /// 5️⃣ PAYMENT / COMPLETE
+      case "arrived drop":
+        if (payStatus != "completed") {
+          if (mode == "online") {
+            _showPaymentBottomSheet(ride);
+          } else {
+            toastMsg("Collecting cash from customer...");
+            bool paymentSuccess =
+            await completePaymentNotifier.completePaymentApi(
+              ride.rideId,
+              ride.fare.toString(),
+            );
 
-        else if (btnText.contains("Collect Cash")) {
-          toastMsg("Collecting cash from customer...");
-          bool paymentSuccess = await completePaymentNotifier.completePaymentApi(ride.rideId, ride.fare.toString());
-         print("paymentSuccess$paymentSuccess");
-          if (paymentSuccess) {
-            bool completeSuccess = await completeRideNotifier.completeRideApi(ride.rideId);
-            print("paymentSuccess11$completeSuccess");
-
-            if (completeSuccess) {
-              await rideNotifier.updateRide(ride.rideId, {
-                "paymentStatus": "completed",
-                "status": "completed",
-                "statusText": "Completed",
-              });
-              mapCtrl.clearAll();
-              toastMsg("Ride Completed (Cash)");
+            if (paymentSuccess) {
+              await _completeRide(
+                ride,
+                rideNotifier,
+                mapCtrl,
+              );
             } else {
-              toastMsg("Ride completion failed after payment");
+              toastMsg("Cash collection failed");
             }
-          } else {
-            toastMsg("Cash collection failed, please retry");
           }
-        }
-
-        else if (btnText == "COMPLETE RIDE") {
-          toastMsg("Completing ride... please wait");
-          bool apiSuccess = await completeRideNotifier.completeRideApi(
-            ride.rideId,
+        } else {
+          await _completeRide(
+            ride,
+            rideNotifier,
+            mapCtrl,
           );
-
-          if (apiSuccess) {
-            await rideNotifier.updateRide(ride.rideId, {
-              "status": "completed",
-              "statusText": "Completed",
-            });
-            mapCtrl.clearAll();
-            toastMsg("Ride Completed");
-          } else {
-            toastMsg("Failed to complete ride");
-          }
         }
+        break;
+
+      default:
+        toastMsg("Some issue occurred");
     }
   }
 
+
+  //
+  // Future<void> _handleButtonTap(
+  //     BuildContext context,
+  //     DriverRideNotifier rideNotifier,
+  //     MapController mapCtrl,
+  //     RideBookingModel ride,
+  //     String btnText,
+  //     ) async
+  // {
+  //   final driverLatLng = ride.requestedDrivers?.first["location"];
+  //   if (driverLatLng == null) {
+  //     toastMsg("Driver location not found");
+  //     return;
+  //   }
+  //
+  //   final driverLat = driverLatLng["latitude"];
+  //   final driverLng = driverLatLng["longitude"];
+  //   final completeRideNotifier = ref.read(completeRideProvider.notifier);
+  //   final completePaymentNotifier = ref.read(completePaymentProvider.notifier);
+  //
+  //   final mode = ride.paymentMode?.toLowerCase() ?? "cash";
+  //   final payStatus = ride.paymentStatus?.toLowerCase() ?? "pending";
+  //
+  //   print("🔘 Button Tapped: $btnText");
+  //
+  //   switch (btnText) {
+  //   // 1️⃣ START RIDE
+  //     case "START RIDE":
+  //       await rideNotifier.updateRide(ride.rideId, {
+  //         "statusText": "Started",
+  //       });
+  //       await mapCtrl.drawRoute(
+  //         LatLng(driverLat, driverLng),
+  //         LatLng(ride.pickupLocation["lat"], ride.pickupLocation["lng"]),
+  //       );
+  //       break;
+  //
+  //   // 2️⃣ ARRIVED AT PICKUP
+  //     case "ARRIVED AT PICKUP":
+  //       await rideNotifier.updateRide(ride.rideId, {
+  //         "statusText": "Arrived Pickup",
+  //       });
+  //       toastMsg("Driver arrived at pickup");
+  //       break;
+  //
+  //   // 3️⃣ VERIFY OTP
+  //     case "VERIFY OTP":
+  //       bool? otpVerified = await _showOtpSheet(context, ride);
+  //       if (otpVerified == true) {
+  //         await rideNotifier.updateRide(ride.rideId, {
+  //           "status": "otp_verified",
+  //           "statusText": "OTP Verified",
+  //         });
+  //         mapCtrl.clearPolylines();
+  //         await mapCtrl.drawRoute(
+  //           LatLng(driverLat, driverLng),
+  //           LatLng(ride.dropLocation["lat"], ride.dropLocation["lng"]),
+  //         );
+  //       }
+  //       break;
+  //
+  //   // 4️⃣ ARRIVED DROP
+  //     case "ARRIVED DROP":
+  //       await rideNotifier.updateRide(ride.rideId, {
+  //         "statusText": "Arrived Drop",
+  //         "paymentStatus":"processing"
+  //       });
+  //
+  //       toastMsg("Arrived at drop location");
+  //       break;
+  //
+  //     default:
+  //       if (btnText.contains("Collect Payment")) {
+  //         _showPaymentBottomSheet(ride);
+  //       }
+  //
+  //       else if (btnText.contains("Collect Cash")) {
+  //         toastMsg("Collecting cash from customer...");
+  //         bool paymentSuccess = await completePaymentNotifier.completePaymentApi(ride.rideId, ride.fare.toString());
+  //        print("paymentSuccess$paymentSuccess");
+  //         if (paymentSuccess) {
+  //           bool completeSuccess = await completeRideNotifier.completeRideApi(ride.rideId);
+  //           print("paymentSuccess11$completeSuccess");
+  //
+  //           if (completeSuccess) {
+  //             await rideNotifier.updateRide(ride.rideId, {
+  //               "paymentStatus": "completed",
+  //               "status": "completed",
+  //               "statusText": "Completed",
+  //             });
+  //             mapCtrl.clearAll();
+  //             toastMsg("Ride Completed (Cash)");
+  //           } else {
+  //             toastMsg("Ride completion failed after payment");
+  //           }
+  //         } else {
+  //           toastMsg("Cash collection failed, please retry");
+  //         }
+  //       }
+  //
+  //       else if (btnText == "COMPLETE RIDE") {
+  //         toastMsg("Completing ride... please wait");
+  //         bool apiSuccess = await completeRideNotifier.completeRideApi(
+  //           ride.rideId,
+  //         );
+  //
+  //         if (apiSuccess) {
+  //           await rideNotifier.updateRide(ride.rideId, {
+  //             "status": "completed",
+  //             "statusText": "Completed",
+  //           });
+  //           mapCtrl.clearAll();
+  //           toastMsg("Ride Completed");
+  //         } else {
+  //           toastMsg("Failed to complete ride");
+  //         }
+  //       }
+  //   }
+  // }
+
+
+  Future<void> _completeRide(
+      RideBookingModel ride,
+      DriverRideNotifier rideNotifier,
+      MapController mapCtrl,
+      ) async {
+    final completeRideNotifier =
+    ref.read(completeRideProvider.notifier);
+
+    bool success =
+    await completeRideNotifier.completeRideApi(ride.rideId);
+
+    if (success) {
+      await rideNotifier.updateRide(ride.rideId, {
+        "status": "completed",
+        "statusText": "Completed",
+        "paymentStatus": "completed",
+      });
+      mapCtrl.clearAll();
+      toastMsg("Ride Completed");
+    } else {
+      toastMsg("Failed to complete ride");
+    }
+  }
 
   Future<bool?> _showOtpSheet(
       BuildContext context,
@@ -368,24 +523,26 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
       ) async
   {
     TextEditingController otpCtrl = TextEditingController();
+    final t = AppLocalizations.of(context)!;
+
     return await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) {
         return CommonBottomSheet(
-          title: "Enter OTP",
+          title: t.enterOtpTitle,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ConstText(
-                text: "Please enter the 4-digit OTP shared by customer",
+                text: t.enterOtpDesc,
               ),
               SizedBox(height: 16.h),
               Pinput(controller: otpCtrl, length: 4),
               SizedBox(height: 20.h),
               AppBtn(
-                title: "Verify OTP",
+                title: t.verifyOtp,
                 onTap: () {
                   if (otpCtrl.text.trim() == ride.otp.toString()) {
                     Navigator.pop(context, true);
@@ -402,7 +559,11 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
     );
   }
 
+
   void _showPaymentBottomSheet(RideBookingModel ride) {
+
+    final t = AppLocalizations.of(context)!;
+
     showModalBottomSheet(
       context: context,
       isDismissible: false,
@@ -411,14 +572,12 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
       builder: (ctx) {
         return Consumer(
           builder: (context, ref, _) {
-            // 🔥 Listen to the ride's live updates
             final liveRide = ref
                 .watch(driverRideNotifierProvider)
                 .rides
                 .firstWhere((r) => r.rideId == ride.rideId, orElse: () => ride);
 
-            final paymentStatus =
-                liveRide.paymentStatus?.toLowerCase() ?? "pending";
+            final paymentStatus = liveRide.paymentStatus?.toLowerCase() ?? "pending";
             print("💳 Payment Status Changed => $paymentStatus");
 
             Widget content;
@@ -434,13 +593,12 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
                     const CircularProgressIndicator(color: Colors.blueAccent),
                     SizedBox(height: 15.h),
                     ConstText(
-                      text: "Waiting for customer to complete payment...",
+                      text: t.waitingForPayment,
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 8.h),
                     ConstText(
-                      text:
-                      "This will update automatically once payment is received.",
+                      text: t.paymentAutoUpdateMsg,
                       fontSize: 12.sp,
                       color: Colors.grey,
                       textAlign: TextAlign.center,
@@ -451,49 +609,6 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
                 break;
 
               case "completed":
-              // content = Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     Icon(
-              //       Icons.check_circle_rounded,
-              //       color: Colors.green,
-              //       size: 70,
-              //     ),
-              //     SizedBox(height: 15.h),
-              //     ConstText(
-              //       text: "Payment Successful 🎉",
-              //       fontWeight: AppConstant.bold,
-              //       color: Colors.green,
-              //       textAlign: TextAlign.center,
-              //     ),
-              //     SizedBox(height: 20.h),
-              //     AppBtn(
-              //       title: "Continue",
-              //       onTap: () async {
-              //         Navigator.pop(context);
-              //         toastMsg("Payment received successfully!");
-              //         final completeRideNotifier = ref.read(completeRideProvider.notifier);
-              //         final rideNotifier = ref.read(driverRideNotifierProvider.notifier);
-              //         final mapCtrl = ref.read(mapControllerProvider.notifier);
-              //         bool apiSuccess = await completeRideNotifier.completeRideApi(ride.rideId);
-              //         if (apiSuccess) {
-              //           await rideNotifier.updateRide(ride.rideId, {
-              //             "status": "completed",
-              //             "statusText": "Completed",
-              //             "paymentStatus": "completed",
-              //           });
-              //           mapCtrl.clearAll();
-              //           toastMsg("✅ Ride Completed Successfully");
-              //         } else {
-              //           toastMsg("❌ Ride completion failed");
-              //         }
-              //
-              //       },
-              //     ),
-              //     SizedBox(height: 10.h),
-              //   ],
-              // );
                 content = _buildPaymentSuccessUI(liveRide.fare.toString(), ride, ref);
 
                 break;
@@ -505,23 +620,23 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
                     Icon(Icons.error_outline, color: Colors.red, size: 70),
                     SizedBox(height: 15.h),
                     ConstText(
-                      text: "Payment Failed",
+                      text: t.paymentFailed,
                       color: Colors.red,
                       fontWeight: AppConstant.bold,
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 10.h),
                     AppBtn(
-                      title: "Retry",
+                      title: t.retry,
                       color: Colors.orange,
                       onTap: () {
                         Navigator.pop(context);
-                        toastMsg("Ask customer to retry payment.");
+                        toastMsg(t.askCustomerRetry);
                       },
                     ),
                     SizedBox(height: 10.h),
                     AppBtn(
-                      title: "Close",
+                      title: t.close,
                       color: Colors.grey,
                       onTap: () => Navigator.pop(context),
                     ),
@@ -531,13 +646,13 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
 
               default:
                 content = ConstText(
-                  text: "Unknown payment status: $paymentStatus",
+                  text: t.unknownPaymentStatus(paymentStatus),
                   textAlign: TextAlign.center,
                 );
             }
 
             return CommonBottomSheet(
-              title: "Payment Status",
+              title: t.paymentStatusTitle,
               content: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
                 child: content,
@@ -550,6 +665,8 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
   }
 
   Widget _buildPaymentSuccessUI(String amount, RideBookingModel ride, WidgetRef ref) {
+    final t = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -573,7 +690,7 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
 
         // Success Message
         ConstText(
-          text: "Payment Successful!",
+          text: t.paymentSuccessful,
           fontWeight: FontWeight.bold,
           fontSize: 20.sp,
           color: Colors.green,
@@ -592,14 +709,14 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
         SizedBox(height: 8.h),
 
         ConstText(
-          text: "Amount Received",
+          text: t.amountReceived,
           fontSize: 14.sp,
           color: Colors.grey.shade600,
         ),
 
         SizedBox(height: 15.h),
         AppBtn(
-          title: "Continue",
+          title: t.continues,
           onTap: () async {
             toastMsg("Payment received successfully!");
             final completeRideNotifier = ref.read(completeRideProvider.notifier);
@@ -626,8 +743,6 @@ class _RideActionPanelState extends ConsumerState<RideActionPanel> {
       ],
     );
   }
-
-
 
   void _launchMapsNavigation(RideBookingModel ride, bool isOtpVerified) async {
     final driverLatLng = ride.requestedDrivers?.first["location"];

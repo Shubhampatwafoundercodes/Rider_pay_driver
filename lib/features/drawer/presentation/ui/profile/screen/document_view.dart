@@ -13,7 +13,6 @@ import 'package:rider_pay_driver/core/res/constant/const_back_btn.dart';
 import 'package:rider_pay_driver/core/res/constant/const_text.dart';
 import 'package:rider_pay_driver/core/utils/routes/routes_name.dart';
 import 'package:rider_pay_driver/features/map/presentation/notifier/profile_notifier.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rider_pay_driver/generated/assets.dart';
 import 'package:rider_pay_driver/l10n/app_localizations.dart';
 
@@ -58,7 +57,7 @@ class DocumentView extends ConsumerWidget {
           ],
         ),
         body: documents.isEmpty
-            ? const Center(child: ConstText(text: "No documents found"))
+            ?  Center(child: ConstText(text: tr.noDocumentsFound))
             : ListView.builder(
           padding: EdgeInsets.all(16.w),
           itemCount: documents.length,

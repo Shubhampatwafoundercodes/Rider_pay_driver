@@ -41,108 +41,111 @@ class _MoneyTransferPageState extends ConsumerState<MoneyTransferPage> {
     final bankState = ref.watch(bankDetailsNotifierProvider);
     final bankDetails = bankState.bankDetails?.data ?? [];
     final methods = bankDetails.where((d) => d.accountNumber != null || d.upiId != null).toList();
-    return Scaffold(
-      backgroundColor: context.greyLightest,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [
-          CommonTopBar(
-            child: Row(
-              children: [
-                const ConstAppBackBtn(),
-                AppSizes.spaceW(15),
-                ConstText(
-                  text: tr.moneyTransfer,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: context.textPrimary,
-                ),
-                const Spacer(),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: bankState.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-        children: [
-        Container(
-        width: double.infinity,
-        margin: EdgeInsets.all(16.w),
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(
-          color: context.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ConstText(
-              text: tr.totalAmountToTransfer,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: context.hintTextColor,
-            ),
-            AppSizes.spaceH(8),
-            ConstText(
-              text: ref.read(profileProvider.notifier).wallet.toString(),
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: context.textPrimary,
-            ),
-          ],
-        ),
-      ),
-          Container(height: 8, color: context.greyLight),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        backgroundColor: context.greyLightest,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          actions: [
+            CommonTopBar(
+              child: Row(
                 children: [
+                  const ConstAppBackBtn(),
+                  AppSizes.spaceW(15),
                   ConstText(
-                    text: tr.automaticMoneyTransfer,
+                    text: tr.moneyTransfer,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: context.textPrimary,
                   ),
-                  AppSizes.spaceH(16),
-                  ConstText(
-                    text: tr.depositTo,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: context.hintTextColor,
-                  ),
-                  AppSizes.spaceH(12),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: methods.length,
-                    separatorBuilder: (context, index) => AppSizes.spaceH(12),
-                    itemBuilder: (context, index) => _buildPaymentMethodCard(
-                      methods[index],
-                      index,tr,
-                      isSelected: _selectedIndex == index,
-                    ),
-                  ),
-                  AppSizes.spaceH(24),
-                  _buildAddPaymentMethodButton(tr),
-                  AppSizes.spaceH(32),
+                  const Spacer(),
                 ],
               ),
             ),
+          ],
+        ),
+        body: bankState.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+          children: [
+          Container(
+          width: double.infinity,
+          margin: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(20.w),
+          decoration: BoxDecoration(
+            color: context.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-          _buildTransferButton(methods,tr),
-          AppSizes.spaceH(15),
-        ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ConstText(
+                text: tr.totalAmountToTransfer,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: context.hintTextColor,
+              ),
+              AppSizes.spaceH(8),
+              ConstText(
+                text: ref.read(profileProvider.notifier).wallet.toString(),
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: context.textPrimary,
+              ),
+            ],
+          ),
+        ),
+            Container(height: 8, color: context.greyLight),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ConstText(
+                      text: tr.automaticMoneyTransfer,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: context.textPrimary,
+                    ),
+                    AppSizes.spaceH(16),
+                    ConstText(
+                      text: tr.depositTo,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: context.hintTextColor,
+                    ),
+                    AppSizes.spaceH(12),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: methods.length,
+                      separatorBuilder: (context, index) => AppSizes.spaceH(12),
+                      itemBuilder: (context, index) => _buildPaymentMethodCard(
+                        methods[index],
+                        index,tr,
+                        isSelected: _selectedIndex == index,
+                      ),
+                    ),
+                    AppSizes.spaceH(24),
+                    _buildAddPaymentMethodButton(tr),
+                    AppSizes.spaceH(32),
+                  ],
+                ),
+              ),
+            ),
+            _buildTransferButton(methods,tr),
+            AppSizes.spaceH(15),
+          ],
+        ),
       ),
     );
   }

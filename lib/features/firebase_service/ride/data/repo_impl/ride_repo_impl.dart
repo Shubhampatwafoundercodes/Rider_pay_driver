@@ -9,10 +9,109 @@ class DriverRideRepoImpl implements DriverRideRepo {
 
 
 
+  // @override
+  // Stream<List<RideBookingModel>> listenAllRides(String driverId, int vehicleId) async* {
+  //   final driverRef = _firestore.collection('drivers').doc(driverId);
+  //   print(" Listening for driver [$driverId] document changes...");
+  //   await for (final driverSnap in driverRef.snapshots()) {
+  //     if (!driverSnap.exists) {
+  //       print(" No such driver found for ID: $driverId");
+  //       yield [];
+  //       continue;
+  //     }
+  //     final driverData = driverSnap.data()!;
+  //     final availability = driverData['availability'] ?? 'Offline';
+  //     print("🛰 Driver status changed → $availability");
+  //     if (availability != 'Online' && availability != 'Busy') {
+  //       print("🛑 Driver is $availability — stopping ride stream.");
+  //       yield [];
+  //       continue;
+  //     }
+  //     final driverLat = driverData['location']?['latitude']?.toDouble();
+  //     final driverLng = driverData['location']?['longitude']?.toDouble();
+  //
+  //     if (driverLat == null || driverLng == null) {
+  //       print("⚠️ Driver location missing in Firestore for [$driverId]");
+  //       yield [];
+  //       continue;
+  //     }
+  //     print("vehicleType $vehicleId");
+  //
+  //     print("📍 Driver location: lat=$driverLat, lng=$driverLng");
+  //
+  //     final ridesRef = _firestore.collection(FirebaseRideKeys.collectionRides)
+  //         .where('vehicleType', isEqualTo: vehicleId);
+  //         print("vehicleType $vehicleId");
+  //
+  //     yield* ridesRef.snapshots().asyncMap((snapshot) async {
+  //       print("🚗 Ride snapshot update → total: ${snapshot.docs.length}");
+  //       final List<RideBookingModel> nearbyRides = [];
+  //       for (final doc in snapshot.docs) {
+  //         final data = doc.data();
+  //         final acceptedByDriver = data['acceptedByDriver'] ?? false;
+  //         if (data['driverId'] != null && data['driverId'] == driverId && acceptedByDriver && data['status'] != 'pending' &&
+  //             data['status'] != 'completed' && data['status'] != 'canceled') {
+  //
+  //           print("🚨 Found ASSIGNED Ride ${doc.id} - Highest Priority");
+  //           // final pickupLat = data['pickupLocation']?['lat']?.toDouble();
+  //           // final pickupLng = data['pickupLocation']?['lng']?.toDouble();
+  //
+  //           // final distance = calculateDistance(
+  //           //   driverLat,
+  //           //   driverLng,
+  //           //   pickupLat,
+  //           //   pickupLng,
+  //           // );
+  //           final ride = RideBookingModel.fromMap({
+  //             ...data,
+  //             FirebaseRideKeys.rideId: doc.id,
+  //           });
+  //           nearbyRides.add(ride);
+  //
+  //           break;
+  //           // return nearbyRides;
+  //         }
+  //
+  //
+  //
+  //         if (data['status'] == 'pending' && !acceptedByDriver) {
+  //           final rejected = List<String>.from(data['rejectedDrivers'] ?? []);
+  //           if (rejected.contains(driverId)) continue;
+  //           final pickupLat = data['pickupLocation']?['lat']?.toDouble();
+  //           final pickupLng = data['pickupLocation']?['lng']?.toDouble();
+  //           if (pickupLat == null || pickupLng == null) continue;
+  //           print("pickup $pickupLat $pickupLng");
+  //           final distance = calculateDistance(
+  //             driverLat,
+  //             driverLng,
+  //             pickupLat,
+  //             pickupLng,
+  //           );
+  //           print("➡️ Ride ${doc.id} distance from driver: ${distance.toStringAsFixed(2)} km",);
+  //           if (distance <= 5) {
+  //             print("✅ Ride ${doc.id} is nearby (within 5.0 km)");
+  //             data[FirebaseRideKeys.distanceBtDriverAndPickupKm] = distance;
+  //             final ride = RideBookingModel.fromMap({
+  //               ...data,
+  //               FirebaseRideKeys.rideId: doc.id,
+  //             });
+  //             nearbyRides.add(ride);
+  //           } else {
+  //             print("❌ Ride ${doc.id} ignored (too far: ${distance.toStringAsFixed(2)} km)",);
+  //           }
+  //         }
+  //       }
+  //       print("🎯 Found ${nearbyRides.length} nearby rides within 5.0 km.");
+  //       return nearbyRides;
+  //     });
+  //   }
+  // }
   @override
   Stream<List<RideBookingModel>> listenAllRides(String driverId, int vehicleId) async* {
     final driverRef = _firestore.collection('drivers').doc(driverId);
     print(" Listening for driver [$driverId] document changes...");
+
+    // Outer stream: Listen to driver status changes
     await for (final driverSnap in driverRef.snapshots()) {
       if (!driverSnap.exists) {
         print(" No such driver found for ID: $driverId");
@@ -22,11 +121,14 @@ class DriverRideRepoImpl implements DriverRideRepo {
       final driverData = driverSnap.data()!;
       final availability = driverData['availability'] ?? 'Offline';
       print("🛰 Driver status changed → $availability");
-      if (availability != 'Online') {
+
+      // Check driver availability
+      if (availability != 'Online' && availability != 'Busy') {
         print("🛑 Driver is $availability — stopping ride stream.");
         yield [];
         continue;
       }
+
       final driverLat = driverData['location']?['latitude']?.toDouble();
       final driverLng = driverData['location']?['longitude']?.toDouble();
 
@@ -35,59 +137,57 @@ class DriverRideRepoImpl implements DriverRideRepo {
         yield [];
         continue;
       }
-      print("vehicleType $vehicleId");
-
       print("📍 Driver location: lat=$driverLat, lng=$driverLng");
 
       final ridesRef = _firestore.collection(FirebaseRideKeys.collectionRides)
           .where('vehicleType', isEqualTo: vehicleId);
-          print("vehicleType $vehicleId");
 
+      // Inner stream: Listen to ride updates and process
       yield* ridesRef.snapshots().asyncMap((snapshot) async {
         print("🚗 Ride snapshot update → total: ${snapshot.docs.length}");
         final List<RideBookingModel> nearbyRides = [];
+
+        // ⭐ 1. CHECK FOR ASSIGNED RIDE FIRST (Highest Priority)
         for (final doc in snapshot.docs) {
           final data = doc.data();
-          final acceptedByDriver = data['acceptedByDriver'] ?? false;
-          if (data['driverId'] != null && data['driverId'] == driverId && acceptedByDriver && data['status'] != 'pending' &&
-              data['status'] != 'completed' &&
-              data['status'] != 'canceled') {
-            // final pickupLat = data['pickupLocation']?['lat']?.toDouble();
-            // final pickupLng = data['pickupLocation']?['lng']?.toDouble();
 
-            // final distance = calculateDistance(
-            //   driverLat,
-            //   driverLng,
-            //   pickupLat,
-            //   pickupLng,
-            // );
+          // Check if this driver has accepted an Ongoing/Arrived/Started ride
+          if (data['driverId'] == driverId &&
+              data['acceptedByDriver'] == true &&
+              data['status'] != 'completed' &&
+              data['status'] != 'canceled')
+          {
+            print("🚨 Found ASSIGNED Ride ${doc.id} - Highest Priority");
             final ride = RideBookingModel.fromMap({
               ...data,
               FirebaseRideKeys.rideId: doc.id,
             });
-            nearbyRides.add(ride);
-            /// jb issh wale condition me aaye tb check hogaa ki  driver stremer on ho jaye live location update ka samjhe
 
-            break;
-            // return nearbyRides;
+            // Assign ride and immediately return this single ride (First Priority)
+            return [ride];
           }
+        }
 
-
+        // ⭐ 2. IF NO ASSIGNED RIDE, CHECK FOR PENDING RIDES
+        for (final doc in snapshot.docs) {
+          final data = doc.data();
+          final acceptedByDriver = data['acceptedByDriver'] ?? false;
 
           if (data['status'] == 'pending' && !acceptedByDriver) {
             final rejected = List<String>.from(data['rejectedDrivers'] ?? []);
             if (rejected.contains(driverId)) continue;
+
             final pickupLat = data['pickupLocation']?['lat']?.toDouble();
             final pickupLng = data['pickupLocation']?['lng']?.toDouble();
             if (pickupLat == null || pickupLng == null) continue;
-            print("pickup $pickupLat $pickupLng");
+
             final distance = calculateDistance(
               driverLat,
               driverLng,
               pickupLat,
               pickupLng,
             );
-            print("➡️ Ride ${doc.id} distance from driver: ${distance.toStringAsFixed(2)} km",);
+
             if (distance <= 5) {
               print("✅ Ride ${doc.id} is nearby (within 5.0 km)");
               data[FirebaseRideKeys.distanceBtDriverAndPickupKm] = distance;
@@ -97,34 +197,17 @@ class DriverRideRepoImpl implements DriverRideRepo {
               });
               nearbyRides.add(ride);
             } else {
-              print("❌ Ride ${doc.id} ignored (too far: ${distance.toStringAsFixed(2)} km)",);
+              print("❌ Ride ${doc.id} ignored (too far: ${distance.toStringAsFixed(2)} km)");
             }
           }
         }
+
         print("🎯 Found ${nearbyRides.length} nearby rides within 5.0 km.");
         return nearbyRides;
       });
     }
   }
 
-  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const R = 6371; // Earth's radius in km
-    final dLat = _degToRad(lat2 - lat1);
-    final dLon = _degToRad(lon2 - lon1);
-
-    final a =
-        sin(dLat / 2) * sin(dLat / 2) +
-            cos(_degToRad(lat1)) *
-                cos(_degToRad(lat2)) *
-                sin(dLon / 2) *
-                sin(dLon / 2);
-
-    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    final distance = R * c; // in km
-    return distance;
-  }
-
-  double _degToRad(double deg) => deg * (pi / 180);
 
   /// 🔹 Accept ride
   @override
@@ -150,9 +233,7 @@ class DriverRideRepoImpl implements DriverRideRepo {
           return;
         }
         final data = doc.data() ?? {};
-        final List<dynamic> currentList = List.from(
-          data['requestedDrivers'] ?? [],
-        );
+        final List<dynamic> currentList = List.from(data['requestedDrivers'] ?? []);
 
         final existingIndex = currentList.indexWhere(
               (d) => d['id'] == driverId,
@@ -177,6 +258,29 @@ class DriverRideRepoImpl implements DriverRideRepo {
       print(st);
     }
   }
+
+
+
+
+
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    const R = 6371; // Earth's radius in km
+    final dLat = _degToRad(lat2 - lat1);
+    final dLon = _degToRad(lon2 - lon1);
+
+    final a =
+        sin(dLat / 2) * sin(dLat / 2) +
+            cos(_degToRad(lat1)) *
+                cos(_degToRad(lat2)) *
+                sin(dLon / 2) *
+                sin(dLon / 2);
+
+    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    final distance = R * c; // in km
+    return distance;
+  }
+
+  double _degToRad(double deg) => deg * (pi / 180);
 
   @override
   Future<void> rejectRide(String rideId, String driverId) async {
@@ -214,7 +318,8 @@ class DriverRideRepoImpl implements DriverRideRepo {
   Future<void> updateRideFields(
       String rideId,
       Map<String, dynamic> data,
-      ) async {
+      ) async
+  {
     await _firestore
         .collection(FirebaseRideKeys.collectionRides)
         .doc(rideId)
@@ -228,6 +333,43 @@ class DriverRideRepoImpl implements DriverRideRepo {
     "location.longitude":lng,
    });
   }
+
+
+  @override
+  Future<void> updateDriverStatus(
+      String driverId,
+      String driverStatus, // 'busy' | 'online'
+      ) async {
+    final driverRef = _firestore.collection('drivers').doc(driverId);
+
+    await _firestore.runTransaction((tx) async {
+      final snap = await tx.get(driverRef);
+      if (!snap.exists) {
+        throw Exception("Driver not found");
+      }
+
+      final data = snap.data() ?? {};
+      final currentStatus =
+      (data['availability'] ?? 'offline').toString().toLowerCase();
+
+      print("🔍 Driver current status: $currentStatus → new: $driverStatus");
+
+      if (driverStatus == 'busy' && currentStatus != 'online') {
+        throw Exception("Driver not online, cannot mark busy");
+      }
+
+      if (driverStatus == 'online' && currentStatus != 'busy') {
+        throw Exception("Driver not busy, cannot mark online");
+      }
+
+      tx.update(driverRef, {
+        'availability': driverStatus,
+        'currentRideId': null,
+        // 'last_active': FieldValue.serverTimestamp(),
+      });
+    });
+  }
+
 
 
 

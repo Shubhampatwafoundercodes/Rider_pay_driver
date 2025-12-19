@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -36,37 +37,78 @@ class DateTimeFormat {
   }
 
   /// Format both date and time from full timestamp → "July 28, 2025 6:55 AM"
-  static String formatFullDateTime(dynamic dateTimeValue) {
-    if (dateTimeValue == null) return "--";
+  // static String formatFullDateTime(dynamic dateTimeValue) {
+  //   if (dateTimeValue == null) return "--";
+  //
+  //   try {
+  //     DateTime dateTime;
+  //
+  //     if (dateTimeValue is DateTime) {
+  //       // Already DateTime
+  //       dateTime = dateTimeValue;
+  //     } else if (dateTimeValue is String && dateTimeValue.isNotEmpty) {
+  //       // ISO format → OK
+  //       if (dateTimeValue.contains("T")) {
+  //         dateTime = DateTime.parse(dateTimeValue).toLocal();
+  //       }
+  //       // Already formatted → try to parse manually
+  //       else {
+  //         try {
+  //           dateTime = DateFormat("MMMM d, yyyy h:mm a").parse(dateTimeValue, true).toLocal();
+  //         } catch (_) {
+  //           // Fallback: return as-is if format not recognized
+  //           return dateTimeValue;
+  //         }
+  //       }
+  //     } else {
+  //       return "--";
+  //     }
+  //
+  //     final outputFormat = DateFormat("MMMM d, yyyy h:mm a");
+  //     return outputFormat.format(dateTime);
+  //   } catch (e) {
+  //     debugPrint("🛑 Date parsing error: $e | Value: $dateTimeValue");
+  //     return "--";
+  //   }
+  // }
+  static String formatFullDateTime(dynamic value) {
+    if (value == null) return "--";
 
     try {
       DateTime dateTime;
 
-      if (dateTimeValue is DateTime) {
-        // Already DateTime
-        dateTime = dateTimeValue;
-      } else if (dateTimeValue is String && dateTimeValue.isNotEmpty) {
-        // ISO format → OK
-        if (dateTimeValue.contains("T")) {
-          dateTime = DateTime.parse(dateTimeValue).toLocal();
-        }
-        // Already formatted → try to parse manually
-        else {
+      // ✅ Firestore Timestamp
+      if (value is Timestamp) {
+        dateTime = value.toDate().toLocal();
+      }
+      // ✅ Already DateTime
+      else if (value is DateTime) {
+        dateTime = value.toLocal();
+      }
+      // ✅ String date
+      else if (value is String && value.isNotEmpty) {
+        String v = value.trim();
+
+        // 🔥 Handle ISO / Z / UTC properly
+        if (v.contains('T')) {
+          dateTime = DateTime.parse(v).toLocal();
+        } else {
+          // Try common readable format
           try {
-            dateTime = DateFormat("MMMM d, yyyy h:mm a").parse(dateTimeValue, true).toLocal();
+            dateTime =
+                DateFormat("MMMM d, yyyy h:mm a").parse(v).toLocal();
           } catch (_) {
-            // Fallback: return as-is if format not recognized
-            return dateTimeValue;
+            return v; // fallback: show raw string
           }
         }
       } else {
         return "--";
       }
 
-      final outputFormat = DateFormat("MMMM d, yyyy h:mm a");
-      return outputFormat.format(dateTime);
+      // ✅ FINAL DISPLAY FORMAT
+      return DateFormat("dd MMM yyyy, hh:mm a").format(dateTime);
     } catch (e) {
-      debugPrint("🛑 Date parsing error: $e | Value: $dateTimeValue");
+      debugPrint("🛑 Date parse error: $e | Value: $value");
       return "--";
     }
   }

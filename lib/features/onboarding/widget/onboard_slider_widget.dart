@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rider_pay_driver/core/res/app_btn.dart';
@@ -8,8 +9,11 @@ import 'package:rider_pay_driver/core/res/app_constant.dart';
 import 'package:rider_pay_driver/core/res/app_padding.dart';
 import 'package:rider_pay_driver/core/res/constant/const_text.dart';
 import 'package:rider_pay_driver/core/utils/routes/routes_name.dart';
+import 'package:rider_pay_driver/features/onboarding/app_url_notifer.dart';
 import 'package:rider_pay_driver/generated/assets.dart';
 import 'package:rider_pay_driver/main.dart';
+
+import '../splash/app_start_notifier.dart' show AppStartNotifier;
 
 class OnBoardItem {
   final String imagePath;
@@ -127,14 +131,22 @@ class _OnBoardSliderState extends State<OnBoardSlider> {
                     fontSize: AppConstant.fontSizeThree,
                     color: Colors.white70,
                   ),
+
+
                   // Gradient + Text + Button overlay
-                  AppBtn(
-                    title: "Start Driving",
-                    titleColor: Colors.black,
-                    margin: AppPadding.screenPaddingV,
-                    onTap: (){
-                      context.pushNamed(RoutesName.language,extra: true);
-                    },
+                  Consumer(
+                    builder: (context,ref,_) {
+                      return AppBtn(
+                        title: "Start Driving",
+                        titleColor: Colors.black,
+                        margin: AppPadding.screenPaddingV,
+                        onTap: ()async{
+                          await AppStartNotifier.setOnboardDone();
+                          // ref.read(userAppUrlNotifierProvider.notifier).openInBrowser();
+                          context.pushNamed(RoutesName.language,extra: true);
+                        },
+                      );
+                    }
                   ),
                   // Indicator
                   Row(

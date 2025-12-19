@@ -46,7 +46,7 @@ class MapBookingDetailsOverlay extends ConsumerStatefulWidget {
   ConsumerState<MapBookingDetailsOverlay> createState() => _MapBookingDetailsOverlayState();
 }
 
-class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOverlay> {
+class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOverlay>   with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool _hasPlayedSound = false;
 
@@ -54,7 +54,9 @@ class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOver
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_shouldPlaySoundOnInit()) {
+      WidgetsBinding.instance.addObserver(this);
+
+      if (_shouldPlaySoundOnInit() && !_hasPlayedSound) {
         SoundVibrationService.startRingtone();
         _hasPlayedSound = true;
         debugPrint("🎵 Initial pending ride detected — playing ringtone");
@@ -94,7 +96,16 @@ class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOver
 
     return false;
   }
-
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached ||
+        state == AppLifecycleState.inactive) {
+      SoundVibrationService.stopRingtone();
+      _hasPlayedSound = false;
+      debugPrint("🔕 App backgrounded → sound stopped");
+    }
+  }
   @override
   void didUpdateWidget(covariant MapBookingDetailsOverlay oldWidget)  {
     super.didUpdateWidget(oldWidget);
@@ -132,11 +143,11 @@ class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOver
           (r.acceptedByDriver == false  || r.driverId.isEmpty),
     );
 
-    if (hasNewRide && hasPendingRide && !_hasPlayedSound && !alreadyRequested) {
-      SoundVibrationService.startRingtone();
-      _hasPlayedSound = true;
-      debugPrint("🎵 New pending ride (no driver request yet) — ringtone started");
-    }
+    // if (hasNewRide && hasPendingRide && !_hasPlayedSound && !alreadyRequested) {
+    //   SoundVibrationService.startRingtone();
+    //   _hasPlayedSound = true;
+    //   debugPrint("🎵 New pending ride (no driver request yet) — ringtone started");
+    // }
 
     if (hasAcceptedRide || alreadyRequested || !hasPendingRide) {
       if (SoundVibrationService.isPlaying) {
@@ -154,6 +165,7 @@ class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOver
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     SoundVibrationService.stopRingtone();
     _hasPlayedSound = false;
 
@@ -163,15 +175,20 @@ class _MapBookingDetailsOverlayState extends ConsumerState<MapBookingDetailsOver
   Widget build(BuildContext context) {
     final rides = widget.rides;
 
-    if (rides.isEmpty || rides.any((r) => r.acceptedByDriver == true && r.driverId == widget.driverId,
-        )) {
+    final shouldHideOverlay =
+        rides.isEmpty ||
+            rides.any((r) =>
+            r.acceptedByDriver == true &&
+                r.driverId == widget.driverId);
+
+    if (shouldHideOverlay) {
       if (SoundVibrationService.isPlaying) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           SoundVibrationService.stopRingtone();
-          _hasPlayedSound=false;
+          _hasPlayedSound = false;
+          debugPrint("🔇 Overlay hidden → sound stopped");
         });
       }
-
       return const SizedBox.shrink();
     }
 

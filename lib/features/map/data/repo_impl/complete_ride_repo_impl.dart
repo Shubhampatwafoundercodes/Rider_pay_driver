@@ -13,7 +13,6 @@ class CompleteRideRepoImpl implements CompleteRideRepo {
   Future<dynamic> completeRideApi(String rideId,String driverId) async {
     final url = "${ApiUrls.completeBookingRide+rideId}&driverId=$driverId";
     print("jhfdddddddd$url");
-
     try {
       final res = await api.getGetApiResponse(url);
       print("jhfdddddddd$res");

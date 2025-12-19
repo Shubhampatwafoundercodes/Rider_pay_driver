@@ -56,7 +56,7 @@
 <!--    </queries>-->
     <application
         android:usesCleartextTraffic="true"
-        android:label="RiderPay Driver"
+        android:label="RiderPe Driver"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

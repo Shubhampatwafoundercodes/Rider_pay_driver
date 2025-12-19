@@ -29,8 +29,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Connectivity().checkConnectivity();
 
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -50,6 +49,8 @@ Future<void> _firebaseBackgroundHandler(RemoteMessage massage) async {
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,7 +73,7 @@ class MyApp extends ConsumerWidget {
         AppDevice.init(size);
 
         return MaterialApp.router(
-          title: 'RiderPay Driver',
+          title: 'RiderPe Driver',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
@@ -85,6 +86,7 @@ class MyApp extends ConsumerWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+
           builder: (context, child) {
             final brightness = Theme.of(context).brightness;
             final overlayStyle =

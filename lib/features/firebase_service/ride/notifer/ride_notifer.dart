@@ -223,6 +223,23 @@ class DriverRideNotifier extends StateNotifier<DriverRideState> {
     await _repo.rejectRide(rideId, driverId);
   }
 
+
+
+  // Future<void> updateDriverStatus(
+  //     String driverId,
+  //     String status)
+  // async
+  // {
+  //   try {
+  //     print("🚗 Updating driver $driverId status to '$status' for ride",);
+  //     await _repo.updateDriverStatus(driverId, status);
+  //     print("✅ Driver $driverId status updated to '$status'");
+  //
+  //   } catch (e) {
+  //     print("$e");
+  //   }
+  // }
+
   @override
   void dispose() {
     _allRidesSub?.cancel();

@@ -102,7 +102,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helloUser => 'नमस्ते उपयोगकर्ता';
 
   @override
-  String get registerAsCaption => 'कृपया स्वयं को शुभ कैप्टन के रूप में पंजीकृत करें';
+  String get registerAsCaption => 'कृपया स्वयं को  कैप्टन के रूप में पंजीकृत करें';
 
   @override
   String get receiveAccountUpdateOn => 'इस पर खाता अपडेट प्राप्त करें';
@@ -499,7 +499,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get viewRateCard => 'रेट कार्ड देखें';
 
   @override
-  String get ratingLabel => 'रेटिंग >';
+  String get ratingLabel => 'रेटिंग';
 
   @override
   String get ordersLabel => 'ऑर्डर';
@@ -670,7 +670,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get documentType => 'दस्तावेज़ का प्रकार';
 
   @override
-  String get documentNumber => 'Document Number';
+  String get documentNumber => 'दस्तावेज़ संख्या';
 
   @override
   String get verifiedStatus => 'सत्यापित स्थिति';
@@ -682,34 +682,34 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notification => 'सूचना';
 
   @override
-  String get ride_myRide => 'My Ride';
+  String get ride_myRide => 'मेरी सवारी';
 
   @override
-  String get ride_rideDetails => 'Ride Details';
+  String get ride_rideDetails => 'सवारी विवरण';
 
   @override
-  String get ride_totalEarning => 'Total Earning';
+  String get ride_totalEarning => 'कुल कमाई';
 
   @override
-  String get ride_dropLocation => 'Drop Location';
+  String get ride_dropLocation => 'ड्रॉप स्थान';
 
   @override
-  String get ride_pickupLocation => 'Pickup Location';
+  String get ride_pickupLocation => 'पिकअप स्थान';
 
   @override
-  String get ride_pickupDropInfo => 'Pickup and Drop info';
+  String get ride_pickupDropInfo => 'पिकअप और ड्रॉप जानकारी';
 
   @override
-  String get ride_yourEarning => 'Your Earning';
+  String get ride_yourEarning => 'आपकी कमाई';
 
   @override
-  String get ride_paymentInfo => 'Payment info';
+  String get ride_paymentInfo => 'भुगतान जानकारी';
 
   @override
-  String get ride_customerFare => 'Customer Fare';
+  String get ride_customerFare => 'ग्राहक किराया';
 
   @override
-  String get earnings_rapidoWalletBalance => 'रैपिडो वॉलेट बैलेंस';
+  String get earnings_rapidoWalletBalance => 'राइडरपे वॉलेट बैलेंस';
 
   @override
   String get earnings_todaysEarning => 'आज की कमाई';
@@ -730,10 +730,246 @@ class AppLocalizationsHi extends AppLocalizations {
   String get exit_app_message => 'क्या आप वाकई ऐप बंद करना चाहते हैं? आपका वर्तमान सत्र समाप्त हो जाएगा।';
 
   @override
-  String get cancel_button => 'रद्द करें';
+  String get ok_exit_button => 'ठीक है, बाहर निकलें';
 
   @override
-  String get ok_exit_button => 'ठीक है, बाहर निकलें';
+  String get noProfileDataFound => 'कोई प्रोफ़ाइल डेटा नहीं मिला';
+
+  @override
+  String get selectYourVehicle => 'अपना वाहन चुनें';
+
+  @override
+  String get confirmVehicle => 'वाहन की पुष्टि करें';
+
+  @override
+  String documentUploadedSuccessfully(Object docType) {
+    return 'आपका $docType दस्तावेज़ सफलतापूर्वक अपलोड हो गया है।';
+  }
+
+  @override
+  String acceptOrders(Object total) {
+    return '$total ऑर्डर स्वीकार करें';
+  }
+
+  @override
+  String youHaveCompletedOrders(Object completed) {
+    return 'आपने $completed ऑर्डर पूरे किए हैं';
+  }
+
+  @override
+  String get noDocumentsFound => 'कोई दस्तावेज़ नहीं मिला';
+
+  @override
+  String get onDuty => 'कर्तव्य पर';
+
+  @override
+  String get offDuty => 'कर्तव्य से मुक्त';
+
+  @override
+  String get proudlyMade => 'गर्व के साथ बनाया गया';
+
+  @override
+  String get inIndia => 'भारत में';
+
+  @override
+  String get paymentStatusTitle => 'भुगतान स्थिति';
+
+  @override
+  String get waitingForPayment => 'ग्राहक द्वारा भुगतान पूरा होने की प्रतीक्षा की जा रही है...';
+
+  @override
+  String get paymentAutoUpdateMsg => 'भुगतान प्राप्त होते ही यह अपने आप अपडेट हो जाएगा।';
+
+  @override
+  String get paymentSuccessful => 'भुगतान सफल हुआ 🎉';
+
+  @override
+  String get paymentReceived => 'भुगतान सफलतापूर्वक प्राप्त हुआ!';
+
+  @override
+  String get rideCompletedSuccess => 'राइड सफलतापूर्वक पूरी हुई';
+
+  @override
+  String get close => 'बंद करें';
+
+  @override
+  String get askCustomerRetry => 'कृपया ग्राहक से भुगतान दोबारा करने को कहें।';
+
+  @override
+  String unknownPaymentStatus(Object status) {
+    return 'अज्ञात भुगतान स्थिति: $status';
+  }
+
+  @override
+  String get amountReceived => 'राशि प्राप्त हुई';
+
+  @override
+  String get continues => 'जारी रखें';
+
+  @override
+  String get paymentReceivedSuccess => 'भुगतान सफलतापूर्वक प्राप्त हुआ!';
+
+  @override
+  String get rideCompletedSuccessfully => 'राइड सफलतापूर्वक पूरी हुई';
+
+  @override
+  String get rideCompletionFailed => 'राइड पूरी करने में असफल';
+
+  @override
+  String get customerVerifiedLocation => 'ग्राहक द्वारा लोकेशन सत्यापित की गई है';
+
+  @override
+  String get startRide => 'राइड शुरू करें';
+
+  @override
+  String get arrivedAtPickup => 'पिकअप पर पहुंचे';
+
+  @override
+  String get verifyOtp => 'ओटीपी सत्यापित करें';
+
+  @override
+  String get arrivedAtDrop => 'ड्रॉप पर पहुंचे';
+
+  @override
+  String collectPayment(Object amount) {
+    return 'भुगतान एकत्र करें ₹$amount';
+  }
+
+  @override
+  String collectCash(Object amount) {
+    return 'नकद लें ₹$amount';
+  }
+
+  @override
+  String get completeRide => 'राइड पूरी करें';
+
+  @override
+  String get rideCompleted => 'राइड पूरी हो चुकी है';
+
+  @override
+  String get someIssue => 'कुछ समस्या आई है';
+
+  @override
+  String get goToDropOff => 'ड्रॉप-ऑफ पर जाएं';
+
+  @override
+  String get goToMap => 'मैप पर जाएं';
+
+  @override
+  String transfersLeft(Object count) {
+    return 'आपके पास $count ट्रांसफर शेष हैं';
+  }
+
+  @override
+  String get enterOtpTitle => 'ओटीपी दर्ज करें';
+
+  @override
+  String get enterOtpDesc => 'कृपया ग्राहक द्वारा साझा किया गया 4 अंकों का ओटीपी दर्ज करें';
+
+  @override
+  String get otpVerified => 'ओटीपी सत्यापित हो गया';
+
+  @override
+  String get invalidOtp => 'गलत ओटीपी';
+
+  @override
+  String get mobileEmpty => 'मोबाइल नंबर दर्ज करें';
+
+  @override
+  String get mobileInvalid => 'मान्य मोबाइल नंबर दर्ज करें';
+
+  @override
+  String get nameEmpty => 'नाम दर्ज करें';
+
+  @override
+  String get nameTooLong => 'नाम 30 अक्षरों से कम होना चाहिए';
+
+  @override
+  String get nameInvalid => 'केवल अक्षर मान्य हैं';
+
+  @override
+  String get otpEmpty => 'ओटीपी दर्ज करें';
+
+  @override
+  String get otpInvalid => 'मान्य 4 अंकों का ओटीपी दर्ज करें';
+
+  @override
+  String get emailEmpty => 'ईमेल दर्ज करें';
+
+  @override
+  String get emailInvalid => 'मान्य ईमेल दर्ज करें';
+
+  @override
+  String get passwordEmpty => 'पासवर्ड दर्ज करें';
+
+  @override
+  String get passwordShort => 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए';
+
+  @override
+  String get confirmPasswordEmpty => 'कन्फर्म पासवर्ड दर्ज करें';
+
+  @override
+  String get passwordMismatch => 'पासवर्ड मेल नहीं खा रहे हैं';
+
+  @override
+  String get panEmpty => 'पैन नंबर दर्ज करें';
+
+  @override
+  String get panInvalid => 'मान्य पैन नंबर दर्ज करें';
+
+  @override
+  String get aadhaarEmpty => 'आधार नंबर दर्ज करें';
+
+  @override
+  String get aadhaarInvalid => 'मान्य 12 अंकों का आधार नंबर दर्ज करें';
+
+  @override
+  String get accountEmpty => 'खाता नंबर दर्ज करें';
+
+  @override
+  String get accountInvalid => 'मान्य खाता नंबर दर्ज करें';
+
+  @override
+  String get ifscEmpty => 'आईएफएससी कोड दर्ज करें';
+
+  @override
+  String get ifscInvalid => 'मान्य आईएफएससी कोड दर्ज करें';
+
+  @override
+  String get amountEmpty => 'राशि दर्ज करें';
+
+  @override
+  String get amountInvalid => 'मान्य राशि दर्ज करें';
+
+  @override
+  String get bankNameEmpty => 'बैंक का नाम दर्ज करें';
+
+  @override
+  String get bankNameTooLong => 'बैंक का नाम 50 अक्षरों से कम होना चाहिए';
+
+  @override
+  String get bankNameUppercase => 'बैंक का नाम CAPITAL में होना चाहिए';
+
+  @override
+  String get transactionEmpty => 'लेन-देन आईडी दर्ज करें';
+
+  @override
+  String get transactionShort => 'लेन-देन आईडी छोटी है';
+
+  @override
+  String get transactionInvalid => 'केवल अल्फ़ान्यूमेरिक मान्य है';
+
+  @override
+  String get licenseEmpty => 'ड्राइविंग लाइसेंस नंबर दर्ज करें';
+
+  @override
+  String get licenseInvalid => 'मान्य ड्राइविंग लाइसेंस नंबर दर्ज करें';
+
+  @override
+  String get vehicleEmpty => 'वाहन नंबर दर्ज करें';
+
+  @override
+  String get vehicleInvalid => 'मान्य वाहन नंबर दर्ज करें';
 
   @override
   String get termsAndPolicy => ' टी&सी और गोपनीयता नीति';
@@ -1001,4 +1237,58 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get cancelRefund => 'रद्दीकरण और रिफंड';
+
+  @override
+  String get rateCardTitle => 'रेट कार्ड';
+
+  @override
+  String get noRateDataFound => 'कोई रेट डेटा उपलब्ध नहीं है';
+
+  @override
+  String fareDetailsTitle(Object vehicle) {
+    return '$vehicle किराया विवरण';
+  }
+
+  @override
+  String get baseFare => 'बेस किराया';
+
+  @override
+  String get perKmRate => 'प्रति किलोमीटर दर';
+
+  @override
+  String get perMinuteRate => 'प्रति मिनट दर';
+
+  @override
+  String get adminCommission => 'एडमिन कमीशन';
+
+  @override
+  String get capacity => 'क्षमता';
+
+  @override
+  String get maxSpeed => 'अधिकतम गति';
+
+  @override
+  String perKmUnit(Object value) {
+    return '₹$value / किमी';
+  }
+
+  @override
+  String perMinuteUnit(Object value) {
+    return '₹$value / मिनट';
+  }
+
+  @override
+  String capacityUnit(Object value) {
+    return '$value व्यक्ति';
+  }
+
+  @override
+  String speedUnit(Object value) {
+    return '$value किमी/घंटा';
+  }
+
+  @override
+  String orderIdLabel(Object id) {
+    return 'ऑर्डर आईडी : $id';
+  }
 }

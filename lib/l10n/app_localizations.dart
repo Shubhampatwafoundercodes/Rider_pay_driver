@@ -284,7 +284,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerAsCaption.
   ///
   /// In en, this message translates to:
-  /// **'Please register yourself as a Shubh Captain'**
+  /// **'Please register yourself as a Captain'**
   String get registerAsCaption;
 
   /// No description provided for @receiveAccountUpdateOn.
@@ -1070,7 +1070,7 @@ abstract class AppLocalizations {
   /// No description provided for @ratingLabel.
   ///
   /// In en, this message translates to:
-  /// **'RATING >'**
+  /// **'RATING'**
   String get ratingLabel;
 
   /// No description provided for @ordersLabel.
@@ -1490,7 +1490,7 @@ abstract class AppLocalizations {
   /// No description provided for @earnings_rapidoWalletBalance.
   ///
   /// In en, this message translates to:
-  /// **'Rapido Wallet Balance'**
+  /// **'RiderPey Wallet Balance'**
   String get earnings_rapidoWalletBalance;
 
   /// No description provided for @earnings_todaysEarning.
@@ -1529,17 +1529,461 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to close the app? Your current session will be lost.'**
   String get exit_app_message;
 
-  /// No description provided for @cancel_button.
-  ///
-  /// In en, this message translates to:
-  /// **'CANCEL'**
-  String get cancel_button;
-
   /// No description provided for @ok_exit_button.
   ///
   /// In en, this message translates to:
   /// **'OK, EXIT'**
   String get ok_exit_button;
+
+  /// No description provided for @noProfileDataFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No profile data found'**
+  String get noProfileDataFound;
+
+  /// No description provided for @selectYourVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your vehicle'**
+  String get selectYourVehicle;
+
+  /// No description provided for @confirmVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Vehicle'**
+  String get confirmVehicle;
+
+  /// No description provided for @documentUploadedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {docType} document has been successfully uploaded.'**
+  String documentUploadedSuccessfully(Object docType);
+
+  /// No description provided for @acceptOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept {total} Orders'**
+  String acceptOrders(Object total);
+
+  /// No description provided for @youHaveCompletedOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'You have completed {completed} orders'**
+  String youHaveCompletedOrders(Object completed);
+
+  /// No description provided for @noDocumentsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No documents found'**
+  String get noDocumentsFound;
+
+  /// No description provided for @onDuty.
+  ///
+  /// In en, this message translates to:
+  /// **'ON DUTY'**
+  String get onDuty;
+
+  /// No description provided for @offDuty.
+  ///
+  /// In en, this message translates to:
+  /// **'OFF DUTY'**
+  String get offDuty;
+
+  /// No description provided for @proudlyMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Proudly made'**
+  String get proudlyMade;
+
+  /// No description provided for @inIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'In India'**
+  String get inIndia;
+
+  /// No description provided for @paymentStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Status'**
+  String get paymentStatusTitle;
+
+  /// No description provided for @waitingForPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for customer to complete payment...'**
+  String get waitingForPayment;
+
+  /// No description provided for @paymentAutoUpdateMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'This will update automatically once payment is received.'**
+  String get paymentAutoUpdateMsg;
+
+  /// No description provided for @paymentSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful 🎉'**
+  String get paymentSuccessful;
+
+  /// No description provided for @paymentReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment received successfully!'**
+  String get paymentReceived;
+
+  /// No description provided for @rideCompletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride completed successfully'**
+  String get rideCompletedSuccess;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @askCustomerRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask customer to retry payment.'**
+  String get askCustomerRetry;
+
+  /// No description provided for @unknownPaymentStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown payment status: {status}'**
+  String unknownPaymentStatus(Object status);
+
+  /// No description provided for @amountReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount Received'**
+  String get amountReceived;
+
+  /// No description provided for @continues.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continues;
+
+  /// No description provided for @paymentReceivedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment received successfully!'**
+  String get paymentReceivedSuccess;
+
+  /// No description provided for @rideCompletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride completed successfully'**
+  String get rideCompletedSuccessfully;
+
+  /// No description provided for @rideCompletionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride completion failed'**
+  String get rideCompletionFailed;
+
+  /// No description provided for @customerVerifiedLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer verified location'**
+  String get customerVerifiedLocation;
+
+  /// No description provided for @startRide.
+  ///
+  /// In en, this message translates to:
+  /// **'START RIDE'**
+  String get startRide;
+
+  /// No description provided for @arrivedAtPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'ARRIVED AT PICKUP'**
+  String get arrivedAtPickup;
+
+  /// No description provided for @verifyOtp.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFY OTP'**
+  String get verifyOtp;
+
+  /// No description provided for @arrivedAtDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'ARRIVED AT DROP'**
+  String get arrivedAtDrop;
+
+  /// No description provided for @collectPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect Payment ₹{amount}'**
+  String collectPayment(Object amount);
+
+  /// No description provided for @collectCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect Cash ₹{amount}'**
+  String collectCash(Object amount);
+
+  /// No description provided for @completeRide.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPLETE RIDE'**
+  String get completeRide;
+
+  /// No description provided for @rideCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'RIDE COMPLETED'**
+  String get rideCompleted;
+
+  /// No description provided for @someIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Some Issue'**
+  String get someIssue;
+
+  /// No description provided for @goToDropOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to drop-off'**
+  String get goToDropOff;
+
+  /// No description provided for @goToMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to map'**
+  String get goToMap;
+
+  /// No description provided for @transfersLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} transfers left'**
+  String transfersLeft(Object count);
+
+  /// No description provided for @enterOtpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP'**
+  String get enterOtpTitle;
+
+  /// No description provided for @enterOtpDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the 4-digit OTP shared by the customer'**
+  String get enterOtpDesc;
+
+  /// No description provided for @otpVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP verified'**
+  String get otpVerified;
+
+  /// No description provided for @invalidOtp.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid OTP'**
+  String get invalidOtp;
+
+  /// No description provided for @mobileEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter mobile number'**
+  String get mobileEmpty;
+
+  /// No description provided for @mobileInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid mobile number'**
+  String get mobileInvalid;
+
+  /// No description provided for @nameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter name'**
+  String get nameEmpty;
+
+  /// No description provided for @nameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be under 30 characters'**
+  String get nameTooLong;
+
+  /// No description provided for @nameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Only letters allowed'**
+  String get nameInvalid;
+
+  /// No description provided for @otpEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP'**
+  String get otpEmpty;
+
+  /// No description provided for @otpInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid 4-digit OTP'**
+  String get otpInvalid;
+
+  /// No description provided for @emailEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email'**
+  String get emailEmpty;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid email'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get passwordEmpty;
+
+  /// No description provided for @passwordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordShort;
+
+  /// No description provided for @confirmPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter confirm password'**
+  String get confirmPasswordEmpty;
+
+  /// No description provided for @passwordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordMismatch;
+
+  /// No description provided for @panEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PAN number'**
+  String get panEmpty;
+
+  /// No description provided for @panInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid PAN number'**
+  String get panInvalid;
+
+  /// No description provided for @aadhaarEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Aadhaar number'**
+  String get aadhaarEmpty;
+
+  /// No description provided for @aadhaarInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid 12-digit Aadhaar number'**
+  String get aadhaarInvalid;
+
+  /// No description provided for @accountEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter account number'**
+  String get accountEmpty;
+
+  /// No description provided for @accountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid account number'**
+  String get accountInvalid;
+
+  /// No description provided for @ifscEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter IFSC code'**
+  String get ifscEmpty;
+
+  /// No description provided for @ifscInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid IFSC code'**
+  String get ifscInvalid;
+
+  /// No description provided for @amountEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter amount'**
+  String get amountEmpty;
+
+  /// No description provided for @amountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid amount'**
+  String get amountInvalid;
+
+  /// No description provided for @bankNameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter bank name'**
+  String get bankNameEmpty;
+
+  /// No description provided for @bankNameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank name must be under 50 characters'**
+  String get bankNameTooLong;
+
+  /// No description provided for @bankNameUppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank name must be in uppercase'**
+  String get bankNameUppercase;
+
+  /// No description provided for @transactionEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter transaction ID'**
+  String get transactionEmpty;
+
+  /// No description provided for @transactionShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction ID is too short'**
+  String get transactionShort;
+
+  /// No description provided for @transactionInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Only alphanumeric allowed'**
+  String get transactionInvalid;
+
+  /// No description provided for @licenseEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Driving License number'**
+  String get licenseEmpty;
+
+  /// No description provided for @licenseInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid Driving License number'**
+  String get licenseInvalid;
+
+  /// No description provided for @vehicleEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Vehicle number'**
+  String get vehicleEmpty;
+
+  /// No description provided for @vehicleInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid Vehicle number'**
+  String get vehicleInvalid;
 
   /// No description provided for @termsAndPolicy.
   ///
@@ -1682,7 +2126,7 @@ abstract class AppLocalizations {
   /// No description provided for @goPlacesWithRiderPay.
   ///
   /// In en, this message translates to:
-  /// **'Go Places with Rider Pay'**
+  /// **'Go Places with Rider Pey'**
   String get goPlacesWithRiderPay;
 
   /// No description provided for @selectTheme.
@@ -2074,6 +2518,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel & Refund'**
   String get cancelRefund;
+
+  /// No description provided for @rateCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Card'**
+  String get rateCardTitle;
+
+  /// No description provided for @noRateDataFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No rate data found'**
+  String get noRateDataFound;
+
+  /// No description provided for @fareDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{vehicle} Fare Details'**
+  String fareDetailsTitle(Object vehicle);
+
+  /// No description provided for @baseFare.
+  ///
+  /// In en, this message translates to:
+  /// **'Base Fare'**
+  String get baseFare;
+
+  /// No description provided for @perKmRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Km Rate'**
+  String get perKmRate;
+
+  /// No description provided for @perMinuteRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Minute Rate'**
+  String get perMinuteRate;
+
+  /// No description provided for @adminCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Commission'**
+  String get adminCommission;
+
+  /// No description provided for @capacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity'**
+  String get capacity;
+
+  /// No description provided for @maxSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Speed'**
+  String get maxSpeed;
+
+  /// No description provided for @perKmUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'₹{value} / km'**
+  String perKmUnit(Object value);
+
+  /// No description provided for @perMinuteUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'₹{value} / min'**
+  String perMinuteUnit(Object value);
+
+  /// No description provided for @capacityUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} person(s)'**
+  String capacityUnit(Object value);
+
+  /// No description provided for @speedUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} km/h'**
+  String speedUnit(Object value);
+
+  /// No description provided for @orderIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID : {id}'**
+  String orderIdLabel(Object id);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

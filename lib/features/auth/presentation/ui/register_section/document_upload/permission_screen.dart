@@ -111,12 +111,12 @@ class PermissionsScreen extends ConsumerWidget {
 
 
                  AppSizes.spaceH(30),
-                  AppBtn(
-                    title: tr.grantAllOtherPermissions,
-                    onTap: ()async {
-                      await otherManager.grantAll();
-                    },
-                  )
+                  // AppBtn(
+                  //   title: tr.grantAllOtherPermissions,
+                  //   onTap: ()async {
+                  //     await otherManager.grantAll();
+                  //   },
+                  // )
 
 
 

@@ -79,7 +79,7 @@ class _RideHistoryScreenState extends ConsumerState<RideHistoryScreen> {
         body: rideState.isRideHistoryLoading
             ? const Center(child: CircularProgressIndicator())
             :rideData.isEmpty
-            ? const Center(child: Text("No Ride History Found"))
+            ?  Center(child: Text(tr.noData))
               : ListView.separated(
           padding:  EdgeInsets.all(16.0.r),
           itemCount:rideData.length,
@@ -119,7 +119,7 @@ class _RideHistoryScreenState extends ConsumerState<RideHistoryScreen> {
                             AppSizes.spaceH(4),
                             ConstText(
                               text:
-                              DateTimeFormat.formatFullDateTime(ride.bookingTime.toString()),
+                              DateTimeFormat.formatFullDateTime(ride.bookingTime),
                               fontSize: AppConstant.fontSizeZero,
                               color: context.hintTextColor,
                             ),

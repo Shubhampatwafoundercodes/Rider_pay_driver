@@ -6,9 +6,7 @@ import 'package:rider_pay_driver/core/res/app_color.dart';
 import 'package:rider_pay_driver/core/res/app_constant.dart';
 import 'package:rider_pay_driver/core/res/app_padding.dart';
 import 'package:rider_pay_driver/core/res/app_size.dart';
-import 'package:rider_pay_driver/core/res/constant/common_top_bar.dart';
 import 'package:rider_pay_driver/core/res/constant/const_text.dart';
-import 'package:rider_pay_driver/features/map/presentation/booking_details/map_booking_details.dart';
 import 'package:rider_pay_driver/features/onboarding/app_url_notifer.dart';
 import 'package:rider_pay_driver/features/onboarding/widget/onboard_slider_widget.dart';
 import 'package:rider_pay_driver/generated/assets.dart';
@@ -27,7 +25,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   void initState() {
     super.initState();
    WidgetsBinding.instance.addPostFrameCallback((_){
-          ref.read(userAppUrlNotifierProvider.notifier).fetchUserAppUrl();
+     ref.read(userAppUrlNotifierProvider.notifier).fetchUserAppUrl();
 
     });
 
